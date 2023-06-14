@@ -11,15 +11,30 @@ public class ScorChildren : MonoBehaviour
 
     private void Start()
     {
-        ChildrenCount = 1;
+        ChildrenCount = 2;
     }
 
     private void Update()
     {
-        if (ChildrenCount != transform.childCount)
+        AcceptBoards();
+        GiveAwayBoards();
+    }
+
+    private void AcceptBoards()
+    {
+        if (ChildrenCount < transform.childCount)
         {
             ChildrenCount++;
             _leftHand.transform.position += new Vector3(0, _gap, 0);
+        }
+    }
+
+    private void GiveAwayBoards()
+    {
+        if (ChildrenCount > transform.childCount)
+        {
+            ChildrenCount--;
+            _leftHand.transform.position += new Vector3(0, -_gap, 0);
         }
     }
 }

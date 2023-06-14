@@ -9,7 +9,7 @@ public class LaborMovement : MonoBehaviour
     [SerializeField] private float _speed;
 
     private Transform _transform;
-    private MovmentBoard _board;
+    private MovmentBoard _movementBoard;
     private MovementPlayer _player;
     private Coroutine _coroutine;
 
@@ -17,7 +17,7 @@ public class LaborMovement : MonoBehaviour
     {
         _transform = FindObjectOfType<LeftHand>().GetComponent<Transform>();
         _player = FindObjectOfType<MovementPlayer>().GetComponent<MovementPlayer>();
-        _board = GetComponent<MovmentBoard>();
+        _movementBoard = GetComponent<MovmentBoard>();
     }
 
     /*private void OnTriggerEnter(Collider collision)
@@ -40,7 +40,7 @@ public class LaborMovement : MonoBehaviour
 
             _coroutine = StartCoroutine(Move());
             gameObject.transform.SetParent(_player.transform, true);
-            _board.enabled = false;
+            _movementBoard.enabled = false;
         }
     }
 
