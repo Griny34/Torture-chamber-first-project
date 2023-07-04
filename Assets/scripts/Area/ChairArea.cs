@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class ChairArea : MonoBehaviour
 {
+    public static ChairArea Instance { get; private set; }
     public bool IsOccupied { get; private set; }
 
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Start()
     {

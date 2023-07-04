@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,18 @@ using UnityEngine;
 public class ChairConstructionArea : MonoBehaviour
 {
     [SerializeField] private ChairArea _chairArea;
-    [SerializeField] private CommandGiveBoards _giveBoards;
 
-    private void Start()
+    public static ChairConstructionArea Instance { get; private set; }
+
+    private void Awake()
     {
-        
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     private void OnTriggerStay(Collider collider)
@@ -18,7 +26,7 @@ public class ChairConstructionArea : MonoBehaviour
         {
             if(_chairArea.IsOccupied == false)
             {
-                _giveBoards.GiveBoards();
+                
             }
         }
     }

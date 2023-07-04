@@ -6,32 +6,28 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class ChairСreationMovements : MonoBehaviour
 {
     [SerializeField] private float _speed;
-   
-    private Transform _chairArea;
 
-    public bool IsGo { get; set; }
+    private bool _isGo;
 
     private void Awake()
     {
-        IsGo = false;
+        _isGo = false;
     }
 
-    private void Start()
-    {
-        _chairArea = FindObjectOfType<ChairArea>().GetComponent<Transform>();
-    }
 
     private void Update()
     {
-        if(IsGo == true)
+        if(_isGo == true)
         {
             gameObject.transform.SetParent(null);
             Move();
+            Destroy(gameObject);
+            Debug.Log("44444444");
         }
     }
 
     private void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _chairArea.position, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, ChairArea.Instance.transform.position, _speed * Time.deltaTime);
     }
 }

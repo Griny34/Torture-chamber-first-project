@@ -13,6 +13,18 @@ public class MovementPlayer : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector3 _moveVector;
 
+    public static MovementPlayer Instance { get; private set; }
+
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
+    }
 
     private void Start()
     {

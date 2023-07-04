@@ -7,7 +7,8 @@ public class SpawnerBoard : MonoBehaviour
     [SerializeField] private Transform _pointSpawner;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private float _delay;
- 
+
+    private GameObject _board;
     private Coroutine _coroutine;
 
     private void Start()
@@ -22,7 +23,7 @@ public class SpawnerBoard : MonoBehaviour
 
     private void CreatBoard()
     {
-        Instantiate(_prefab, _pointSpawner.position, Quaternion.identity);
+        _board = Instantiate(_prefab, _pointSpawner.position, Quaternion.identity);
     }
 
     private IEnumerator SpawnEndless()
