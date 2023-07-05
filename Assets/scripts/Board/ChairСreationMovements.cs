@@ -30,4 +30,9 @@ public class ChairСreationMovements : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, ChairArea.Instance.transform.position, _speed * Time.deltaTime);
     }
+
+    public void ChangBool()
+    {
+        _isGo = true;
+    }
 }
