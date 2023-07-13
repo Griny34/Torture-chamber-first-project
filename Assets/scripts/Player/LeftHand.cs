@@ -5,11 +5,9 @@ using UnityEngine.Events;
 
 public class LeftHand : MonoBehaviour
 {
-    private List<Chair—reationMovements> _boards = new List<Chair—reationMovements>();
-
     public static LeftHand Instance { get; private set;}
 
-    public event UnityAction ChangeBool;
+    [SerializeField] private BoardsPlayer _boardsPlayer;
 
     private void Start()
     {
@@ -24,43 +22,15 @@ public class LeftHand : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if(collider.transform.TryGetComponent<Chair—reationMovements>(out var laborMovement) == true)
+        if(collider.transform.TryGetComponent<Chair—reationMovements>(out var chair—reationMovements) == true)
         {
-            AddBoard(laborMovement); 
-            Debug.Log("11111111111111");
-        }
-    }
-    private void AddBoard(Chair—reationMovements board)
-    {
-        _boards.Add(board);
-    }
-
-    private void RemoveBoard(Chair—reationMovements board)
-    {
-        _boards.Remove(board);
-    }
-
-    private Chair—reationMovements KeepLastDesk()
-    {
-        var last = _boards[_boards.Count - 1];
-        _boards.RemoveAt(_boards.Count - 1);
-        return last;
-    }
-
-    private void ChangIsGo()
-    {
-        for(int i = _boards.Count; i > 0; i--)
-        {
+            _boardsPlayer.AddBoard(chair—reationMovements);
             
-        }
-    }
-    
-    private IEnumerator Go()
-    {
-        while(_boards.Count == 0)
+        }  
+        
+        if(collider.transform.TryGetComponent<LaborMovement>(out var laborMovement) == true)
         {
-
-            yield return new WaitForSeconds(2f);
+            laborMovement.enabled = false;
         }
     }
 }
