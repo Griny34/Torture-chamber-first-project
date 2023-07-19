@@ -12,9 +12,6 @@ GameObject:
   - component: {fileID: 3391224400608393101}
   - component: {fileID: 6250740843963868906}
   - component: {fileID: 3181343363076466424}
-  - component: {fileID: -6229966442854767183}
-  - component: {fileID: -3284424804595483392}
-  - component: {fileID: -4801921955719561498}
   - component: {fileID: 4356200085890534234}
   m_Layer: 0
   m_Name: Board
@@ -101,45 +98,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6229966442854767183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330988730540310576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f683ffc34ed40084588f33cc3a3d122e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 3
---- !u!114 &-3284424804595483392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330988730540310576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c223abfc01d3d488bd514b291148f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 10
---- !u!114 &-4801921955719561498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330988730540310576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e2adaad97cca545a64910689c91058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 2
 --- !u!54 &4356200085890534234
 Rigidbody:
   m_ObjectHideFlags: 0
