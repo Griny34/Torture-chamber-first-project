@@ -19,12 +19,14 @@ public class DeskInventory : MonoBehaviour
         
     }
 
-    private void AddDesk(Desk desk)
+    public void AddDesk(Desk desk)
     {
         _desks.Add(desk);
+        desk.StartMove(CreatePoint());
+        desk.transform.SetParent(gameObject.transform, true);
     }
 
-    private void CreatePoint()
+    private Transform CreatePoint()
     {
         GameObject point = new GameObject();
 
@@ -33,6 +35,8 @@ public class DeskInventory : MonoBehaviour
         Vector3 gap = new Vector3(0, _interval, 0);
 
         point.transform.position = _player.transform.position + gap;
+
+        return point.transform;
     }
 
     private void RemoveDesk(Desk desk)

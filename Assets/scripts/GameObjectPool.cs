@@ -2,51 +2,54 @@ using Gameplay.Common;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameObjectPool : MonoBehaviour
 {
     [SerializeField] private TriggerHandler _playerTrigger;
-    [SerializeField] private Transform _pointSpawner;
     [SerializeField] private int _capasity;
     [SerializeField] private MovementPlayer _player;
     [SerializeField] private PointTake _pointTake;
+    [SerializeField] private DeskInventory _deskInventory;
 
-    private List<GameObject> _pool = new List<GameObject>();
+    private List<Desk> _pool = new List<Desk>();
 
     private void Start()
     {
         _playerTrigger.OnEnter += col =>
         {
             if (col.GetComponent<MovementPlayer>() == null) return;
-
-            Debug.Log("Start give to player desk!");
+            _deskInventory.AddDesk(GetRelevantDesk());
+            _pool.Remove(GetRelevantDesk());
+            ;
         };
     }
-    protected void Initialize(GameObject prefab)
+    protected void Initialize(Desk prefab)
     {
         for(int i = 0; i < _capasity; i++)
         {
-            GameObject spawned = Instantiate(prefab, _pointSpawner.transform.position, Quaternion.identity);
+            Desk spawned = Instantiate(prefab);
 
-            spawned.SetActive(false);
+            spawned.gameObject.SetActive(false);
 
             _pool.Add(spawned);
         }
     }
 
-    protected bool TryGetGameObject(out GameObject result)
+    protected bool TryGetGameObject(out Desk result)
     {
-        result = _pool.FirstOrDefault(p => p.activeSelf == false);
-
+        Debug.Log("1");
+        result = _pool.FirstOrDefault(p => p.gameObject.activeSelf == false);
+        Debug.Log("2");
         return result != null;
     }
 
-    private GameObject GetRelevantDesk()
+    private Desk GetRelevantDesk()
     {
         float minDistans = Vector3.Distance(_pointTake.transform.position, _player.transform.position);
 
-        foreach (GameObject desk in _pool)
+        foreach (Desk desk in _pool)
         {
             float Distans = Vector3.Distance(transform.position, _player.transform.position);
            

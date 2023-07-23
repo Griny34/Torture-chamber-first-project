@@ -14,7 +14,7 @@ public class Desk : MonoBehaviour
         }
     }
 
-    private void StartMove(Transform target)
+    public void StartMove(Transform target)
     {
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
     }

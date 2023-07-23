@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Conveur : GameObjectPool
 {
-    [SerializeField] private GameObject _prefabDesk;
-    [SerializeField] private Transform _pointSpawner;
+    [SerializeField] private Desk _prefabDesk;
+    [SerializeField] private Transform _pointSpawne;
     [SerializeField] private float _delay;
 
     private float _elepsedTime = 0;
@@ -22,18 +22,18 @@ public class Conveur : GameObjectPool
 
         if( _elepsedTime >= _delay)
         {
-            if (TryGetComponent(out GameObject desk))
+            if (TryGetComponent(out Desk desk))
             {
                 _elepsedTime = 0;
 
-                SetDesk(desk, _pointSpawner.position);
+                SetDesk(desk, _pointSpawne.position);
             }
         }
     }
 
-    private void SetDesk(GameObject desk, Vector3 spawnPosition)
+    private void SetDesk(Desk desk, Vector3 spawnPosition)
     {
-        desk.SetActive(true);
+        desk.gameObject.SetActive(true);
         desk.transform.position = spawnPosition;
     }
 }

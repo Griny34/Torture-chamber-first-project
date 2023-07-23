@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1680faab6f08544949df85970b1fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boardsPlayer: {fileID: 242421987}
+  _boardsPlayer: {fileID: 0}
 --- !u!65 &166890238
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -346,8 +346,8 @@ GameObject:
   - component: {fileID: 242421981}
   - component: {fileID: 242421980}
   - component: {fileID: 242421985}
-  - component: {fileID: 242421986}
   - component: {fileID: 242421987}
+  - component: {fileID: 242421986}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -473,11 +473,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 242421979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4364e7e7f56e85f469c181277fd50dfa, type: 3}
+  m_Script: {fileID: 11500000, guid: 005de7981f587d44da164087948cb817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftHand: {fileID: 166890237}
-  _gap: 0.5
+  _player: {fileID: 242421980}
+  _interval: 1
 --- !u!114 &242421987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,12 +487,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 242421979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba947e2fd2757146b75682ce6627433, type: 3}
+  m_Script: {fileID: 11500000, guid: 97563dae0136ce54da1f38e72e4f19d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chairArea: {fileID: 0}
-  _spawnerChair: {fileID: 0}
-  _speed: 4
+  onEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &333547565
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,6 +605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363314259}
+  - component: {fileID: 363314260}
   m_Layer: 0
   m_Name: SpawnerBoard
   m_TagString: Untagged
@@ -614,13 +621,33 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363314257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.344, y: 0.75, z: 0.05333376}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 81479048}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &363314260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363314257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e29786dcbc9a3da448440d729d0bcc97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTrigger: {fileID: 724686327}
+  _capasity: 10
+  _player: {fileID: 242421980}
+  _pointTake: {fileID: 1515813032}
+  _deskInventory: {fileID: 242421986}
+  _prefabDesk: {fileID: -5681185954737987999, guid: ffcc26eefca5067488b08e6866f35f5b, type: 3}
+  _pointSpawne: {fileID: 363314259}
+  _delay: 2
 --- !u!1 &689929653
 GameObject:
   m_ObjectHideFlags: 0
