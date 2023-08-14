@@ -31,7 +31,7 @@ public class BoardsPlayer : MonoBehaviour
         
         if (collider.transform.TryGetComponent<ChairConstructionArea>(out var chairConstructionArea) == true)
         {
-            if (_spawnerChair.IsChair == false)
+
             {
                 if(coroutine != null)
                 {
