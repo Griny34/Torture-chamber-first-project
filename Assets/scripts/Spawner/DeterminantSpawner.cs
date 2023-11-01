@@ -1,6 +1,7 @@
 using Gameplay.Common;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeterminantSpawner : MonoBehaviour
@@ -38,7 +39,7 @@ public class DeterminantSpawner : MonoBehaviour
             {
                 return spawnerChair;
             }
-        }
+        }       
 
         return null;
     }

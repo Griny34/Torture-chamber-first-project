@@ -9,6 +9,7 @@ public class Car : MonoBehaviour
     [Header("General properties")]
     [SerializeField] private int _maxCountChair;
     [SerializeField] private float _speed;
+    [SerializeField] private Transform _positionShop;
 
     [Header("Handlers")]
     [SerializeField] private TriggerHandler _carAria;
@@ -20,6 +21,9 @@ public class Car : MonoBehaviour
     private List<Item> _chairs = new List<Item>();
     private Item _relevantChair;
     private Coroutine _corutine;
+    private Coroutine _corutineChair;
+    private Vector3 _startPosition;
+    private int _countChair;
 
     public static Car Instance { get; private set;}
 
@@ -32,6 +36,8 @@ public class Car : MonoBehaviour
         }
 
         Instance = this;
+
+        _startPosition = transform.position;
     }
 
     private void Start()
@@ -40,46 +46,80 @@ public class Car : MonoBehaviour
         {
             if (col.GetComponent<MovementPlayer>() == null) return;
 
+            if(_corutineChair != null)
+            {
+                StopCoroutine(_corutineChair);
+            }
+
+            _corutineChair = StartCoroutine(MoveChair());           
+        };
+
+        _carAria.OnExit += (col) =>
+        {
+            if(_chairs.Count == 0) return;
+
+            if (_corutine != null)
+            {
+                StopCoroutine(_corutine);
+            }
+
+            _corutine = StartCoroutine(MoveCarCoroutine());            
+        };
+    }
+
+    private IEnumerator MoveChair()
+    {
+        while (_chairInventory.GetListChair().Count != 0)
+        {
             _relevantChair = _chairInventory.GetLastItem();
 
-            if (_relevantChair == null) return;
-
+            //if (_relevantChair == null) return;
             _chairInventory.RemoveItem(_relevantChair);
             _relevantChair.StartMove(transform);
             _chairs.Add(_relevantChair);
 
-            if (_chairs.Count == _maxCountChair)
-            {
-                if(_corutine != null)
-                {
-                    StopCoroutine(_corutine);
-                }
+            yield return new WaitForSeconds(1f);
 
-                _corutine = StartCoroutine(MoveCarCoroutine());
-            }
-        };
+            _countChair++;
+
+            yield return null;
+        }
+        
     }
 
     private IEnumerator MoveCarCoroutine()
     {
-        //play animation
-
-        yield return new WaitForSeconds(3);
-
-        _spawnerMoney.CreateMoney();
-        _chairs.Clear();
+        yield return new WaitForSeconds(0.6f);
         DestroyChair();
+        _chairs.Clear();
 
-        yield return null;
+        while (transform.position != _positionShop.position)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _positionShop.position, _speed * Time.deltaTime);
+            yield return null;
+        }
 
-        _corutine = null;
+        yield return new WaitForSeconds(1);
+
+        while (transform.position != _startPosition)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _startPosition, _speed * Time.deltaTime);
+            yield return null;
+        }
+
+        for(int i = 0; i < _countChair; i++)
+        {
+            _spawnerMoney.CreateMoney();
+        }
+
+        _countChair = 0;
     }
 
     private void DestroyChair()
     {
         foreach(var chair in _chairs)
         {
-            Destroy(chair);
+            Destroy(chair.gameObject);
         }
     }
 }

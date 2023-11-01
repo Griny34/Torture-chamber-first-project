@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MatchModelSO : MonoBehaviour
+[CreateAssetMenu(fileName = "Match 1", menuName = "ScriptableObjects/Match", order = 0)]
+public class MatchModelSO : ScriptableObject
 {
     [SerializeField] private int _money;
     [SerializeField] private int _time;

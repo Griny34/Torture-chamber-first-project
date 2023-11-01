@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] private Transform _pointPrefab;
     [SerializeField] private float _interval;
-    [SerializeField] private float _maxCountDesk;
+    [SerializeField] protected float _maxCountItem;
     [SerializeField] private Transform _newPointPosition;
 
     private List<Item> _items = new List<Item>();
     private List<GameObject> _points = new List<GameObject>();
 
-    public bool IsFull => _items.Count >= _maxCountDesk;
+    public bool IsFull => _items.Count >= _maxCountItem;
 
     public void RemoveItem(Item item)
     {
@@ -19,9 +20,14 @@ public class Inventory : MonoBehaviour
         item.transform.SetParent(null);
 
         _newPointPosition.position -= Vector3.up * _interval;
-
+        
         Destroy(_points[_points.Count - 1]);
         _points.Remove(_points[_points.Count - 1]);
+    }
+
+    public List<Item> GetListChair()
+    {
+        return _items;
     }
 
     public Item GetLastItem()
@@ -36,20 +42,22 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        if (_maxCountDesk > _items.Count)
-        {
+        if (_maxCountItem > _items.Count)
+        {           
             _items.Add(item);
             item.StartMove(CreatePoint());
-            item.transform.SetParent(gameObject.transform, true);
+            item.transform.SetParent(gameObject.transform, true);                 
         }
     }
 
     private Transform CreatePoint()
     {
-        GameObject point = Instantiate(new GameObject());
+        GameObject point = Instantiate(_pointPrefab.gameObject);
 
         point.transform.SetParent(transform, true);
 
+        point.transform.name = _points.Count.ToString();
+        
         _points.Add(point);
 
         point.transform.position = _newPointPosition.position;

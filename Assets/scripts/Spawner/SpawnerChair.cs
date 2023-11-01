@@ -24,11 +24,12 @@ public class SpawnerChair : MonoBehaviour
         _chairAria.OnEnter += (col) =>
         {
             if (col.GetComponent<MovementPlayer>() == null) return;
-            if(_chairInventory.IsFull == true) return;
+            if(_chairInventory.IsFull == true) return;          
 
             if(_chairs.Count >= 0)
             {
                 _relevantChair = GetLastItem();
+                if (_relevantChair == null) return;
                 _chairInventory.AddItem(_relevantChair);
                 _chairs.Remove(_relevantChair);
             }
@@ -67,10 +68,12 @@ public class SpawnerChair : MonoBehaviour
     {
         if (IsOpen == true && _deskInventory.GetLastItem() != null)
         {
+            if (enabled == false) return;
+           
             _relevantDesk = _deskInventory.GetLastItem();
             _deskInventory.RemoveItem(_relevantDesk);
             _relevantDesk.StartMove(transform);
-
+                      
             _relevantDesk.OnFinished += () =>
             {
                 _count++;
@@ -94,4 +97,6 @@ public class SpawnerChair : MonoBehaviour
             _relevantDesk.OnFinished -= OutItem;
         }
     }
+
+    
 }

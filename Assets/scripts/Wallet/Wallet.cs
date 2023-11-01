@@ -22,6 +22,11 @@ public class Wallet : MonoBehaviour
         Instance = this;
     }
 
+    public int GetMoney()
+    {
+        return _money;
+    }
+
     public void TakeMoney(int money)
     {
         _money += money;
@@ -34,10 +39,5 @@ public class Wallet : MonoBehaviour
         _money -= money;
 
         OnMoneyChanged?.Invoke(money);
-    }
-
-    public int GetMoney()
-    {
-        return _money;
     }
 }

@@ -4,14 +4,37 @@ using UnityEngine;
 
 public class Money : MonoBehaviour
 {
-    [SerializeField] private int _value;
+    public static Money Instance { get; private set; }
 
-    private void OnTriggerEnter(Collider collider)
+    [SerializeField] private int _value;
+    [SerializeField] private int _upgradeMoney;
+
+    private void Awake()
     {
-        if(collider.transform.TryGetComponent<MovementPlayer>(out var player) == true)
+        if(Instance != null)
         {
             Destroy(gameObject);
-            Wallet.Instance.TakeMoney(_value);
+            return;
         }
-    }   
+
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        Upgrade.Instace.OnBuyMoney += () =>
+        {
+            UpgradeMoney();
+        };
+    }    
+
+    public int GetMoneyValue()
+    {
+        return _value;
+    }
+
+    private void UpgradeMoney()
+    {
+        _value += _upgradeMoney;
+    }
 }

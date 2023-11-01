@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnerMoney : MonoBehaviour
 {
-    [SerializeField] private Money _prefabMoney;
+    [SerializeField] private BoxMoney _prefabMoney;
     [SerializeField] private Transform _positionSpawner;
 
     public void CreateMoney()

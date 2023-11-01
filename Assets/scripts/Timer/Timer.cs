@@ -29,12 +29,11 @@ public class Timer : MonoBehaviour
     public void Stop()
     {
         StopCoroutine(_tickCoroutine);
-        OnDone?.Invoke();
     }
 
     private IEnumerator TickCoroutine()
     {
-        while (_timeLeft >= 0)
+        while (_timeLeft >= 1)
         {
             _timeLeft--;
             OnTick?.Invoke(_timeLeft);
