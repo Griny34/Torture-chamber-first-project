@@ -7,7 +7,7 @@ using UnityEngine;
 public class TestGameObjectPool : MonoBehaviour
 {
     [SerializeField] private TriggerHandler _playerTrigger;
-    [SerializeField] private MovementPlayer _player;
+    [SerializeField] private JoystickPlayer _player;
     [SerializeField] private StackDo _stack;
 
     [SerializeField] private Transform _contaner;
@@ -21,14 +21,14 @@ public class TestGameObjectPool : MonoBehaviour
     {
         _playerTrigger.OnEnter += col =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
 
             OutDesk();
         };
 
         _playerTrigger.OnExit += col =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
 
             if (_relevantDesk != null)
             {

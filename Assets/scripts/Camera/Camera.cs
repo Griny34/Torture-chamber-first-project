@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-    [SerializeField] private MovementPlayer _player;
+    [SerializeField] private JoystickPlayer _player;
     [SerializeField] private float _speed;
 
     private Vector3 _startPosition;

@@ -23,7 +23,7 @@ public class TestSpawnerChair : MonoBehaviour
     {
         _chairAria.OnEnter += (col) =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
             if (_chairInventory.IsFull == true) return;
 
             if (_chairs.Count >= 0)
@@ -37,7 +37,7 @@ public class TestSpawnerChair : MonoBehaviour
 
         _chairAria.OnExit += (col) =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
         };
     }
 
@@ -89,7 +89,7 @@ public class TestSpawnerChair : MonoBehaviour
             _relevantDesk = _deskStack.GetLastDesk();
             _deskStack.RemoveDesk(_relevantDesk, gameObject.transform);
                         
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         if (_deskStack.GetBoolAllDesk() == false)

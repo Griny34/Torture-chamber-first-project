@@ -8,7 +8,7 @@ using UnityEngine;
 public class GameObjectPool : MonoBehaviour
 {
     [SerializeField] private TriggerHandler _playerTrigger;
-    [SerializeField] private MovementPlayer _player;
+    [SerializeField] private JoystickPlayer _player;
     [SerializeField] private DeskInventory _deskInventory;
 
     [SerializeField] private Transform _contaner;
@@ -22,14 +22,14 @@ public class GameObjectPool : MonoBehaviour
     {
         _playerTrigger.OnEnter += col =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
 
             OutDesk();
         };
 
         _playerTrigger.OnExit += col =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
             
             if(_relevantDesk != null)
             {

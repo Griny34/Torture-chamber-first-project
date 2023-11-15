@@ -14,7 +14,7 @@ public class TestDeterminateSpawner : MonoBehaviour
     {
         _chairConstructionArea.OnEnter += (col) =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
             if (_spawnersChair == null) return;
 
             _currentSpawnerChair = GetSpawnerChair();

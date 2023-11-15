@@ -95,7 +95,7 @@ public class MatchModel : MonoBehaviour
         {
             onFinished?.Invoke(); 
         }));
+
+        //Agava.YandexGames.VideoAd.Show();
     }
-
-
 }

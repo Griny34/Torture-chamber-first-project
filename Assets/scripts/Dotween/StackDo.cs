@@ -29,7 +29,7 @@ public class StackDo : MonoBehaviour
     {
         _inventoryDesks.Add(desk);
 
-        desk.transform.DOJump(_pointStartStack.position + new Vector3(0, 0.025f + _number, 0), 1f, 1, 1f).OnComplete(
+        desk.transform.DOJump(_pointStartStack.position + new Vector3(0, 0.025f + _number, 0), 1f, 1, 0.5f).OnComplete(
             () => {               
                 desk.transform.SetParent(_pointStartStack.transform, true);
                 desk.transform.localPosition = new Vector3(0, 0.025f + _number, 0);
@@ -44,7 +44,7 @@ public class StackDo : MonoBehaviour
 
         desk.transform.SetParent(null);
 
-        desk.transform.DOJump(pointDestroy.position, 1, 1, 0.8f).OnComplete(
+        desk.transform.DOJump(pointDestroy.position, 1, 1, 0.5f).OnComplete(
             () =>
             {
                 _inventoryDesks.Remove(desk);

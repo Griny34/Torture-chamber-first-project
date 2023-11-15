@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class joystickPlayer : MonoBehaviour
+public class JoystickPlayer : MonoBehaviour
 {
     private const string _isRun = "IsRun";
 
@@ -12,23 +13,54 @@ public class joystickPlayer : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     [SerializeField] private float _speed;
+    [SerializeField] private float _upgradeSpeed;
 
+    [SerializeField] private float _acceleration;
+    [SerializeField] private float _deceleration;
+
+
+
+    private float _velocity = 0;
+    private int _velocityHash =0;
+
+    private Vector3 _startPosition;
     private bool _isRunning = false;
+
+    private void Awake()
+    {
+        _startPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+
+        _velocityHash = Animator.StringToHash("Velocity");
+
+
+        MatchModel.Instace.OnFinished += () =>
+        {
+            transform.position = _startPosition;
+        };
+
+        Upgrade.Instace.OnBuySpeedPlayer += () =>
+        {
+            _speed += _upgradeSpeed;
+        };       
+    }
 
     private void Update()
     {
-        //if (MovementPlayer.Instance.MovmentSpeed == 0 && _isRunning == true)
+        //if (Screen.width < Screen.height)
         //{
-        //    _animator.SetBool(_isRun, false);
-        //    _isRunning = false;
+        //    MovePlayerAnimation(_joystickPortrait);
         //}
-
-        //if (MovementPlayer.Instance.MovmentSpeed > 0 && _isRunning == false)
+        //else
         //{
-        //    _animator.SetBool(_isRun, true);
-        //    _isRunning = true;
+        //    MovePlayerAnimation(_joystickLandscape);
         //}
     }
+
 
     private void FixedUpdate()
     {
@@ -46,16 +78,60 @@ public class joystickPlayer : MonoBehaviour
     {
         _rigidbody.velocity = new Vector3(joystick.Horizontal * _speed, _rigidbody.velocity.y, joystick.Vertical * _speed);
 
-        if (joystick.Horizontal != 0 || joystick.Vertical != 0 && _isRunning == false)
+        _animator.SetFloat(_velocityHash, _rigidbody.velocity.magnitude);
+
+        Vector3 direction = _rigidbody.velocity;
+
+        Rotate(joystick, direction);
+
+        //transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
+
+        //MovePlayerAnimation(joystick);
+
+        //if (joystick.Horizontal != 0 || joystick.Vertical != 0 && _isRunning == false)
+        //{
+        //    transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
+        //    _animator.SetBool(_isRun, true);
+        //    _isRunning = true;
+        //}
+        //else
+        //{
+        //    _animator.SetBool(_isRun, false);
+        //    _isRunning = false;
+        //}
+    }
+
+    private void Rotate(FixedJoystick joystick, Vector3 direction)
+    {
+        if (direction.sqrMagnitude < 0.1f) 
+            return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1);        
+    }
+
+    private void MovePlayerAnimation(FixedJoystick joystick)
+    {
+        if (joystick.Horizontal != 0 || joystick.Vertical != 0 && _velocity < 1)
         {
-            transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
-            _animator.SetBool(_isRun, true);
-            _isRunning = true;
+            
+
+            _velocity += Time.deltaTime * _acceleration;
         }
-        else
+
+        if(joystick.Horizontal == 0 || joystick.Vertical == 0 && _velocity > 0)
         {
-            _animator.SetBool(_isRun, false);
-            _isRunning = false;
+            _velocity -= Time.deltaTime * _deceleration;
         }
+
+        if(joystick.Horizontal == 0 || joystick.Vertical == 0 && _velocity < 0)
+        {
+            _velocity = 0;
+        }
+
+        _animator.SetFloat(_velocityHash, _velocity);
+
+        Debug.Log(_velocity);
     }
 }

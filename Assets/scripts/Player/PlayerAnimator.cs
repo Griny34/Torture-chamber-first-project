@@ -7,19 +7,19 @@ public class PlayerAnimator : MonoBehaviour
 {
     private const string _isRun = "IsRun";
 
-    [SerializeField] private MovementPlayer _movementPlayer;
+    [SerializeField] private JoystickPlayer _movementPlayer;
     [SerializeField] private Animator _animator;
 
     //private bool _isRunning = false;
 
     private void OnEnable()
     {
-        _movementPlayer.MovemetStateChanged += OnMovemetStateChanged;
+        //_movementPlayer.MovemetStateChanged += OnMovemetStateChanged;
     }
 
     private void OnDisable()
     {
-        _movementPlayer.MovemetStateChanged -= OnMovemetStateChanged;
+        //_movementPlayer.MovemetStateChanged -= OnMovemetStateChanged;
     }
     private void OnMovemetStateChanged(MovementPlayer.MovementStates state)
     {

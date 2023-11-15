@@ -44,7 +44,7 @@ public class Car : MonoBehaviour
     {
         _carAria.OnEnter += (col) =>
         {
-            if (col.GetComponent<MovementPlayer>() == null) return;
+            if (col.GetComponent<JoystickPlayer>() == null) return;
 
             if(_corutineChair != null)
             {
