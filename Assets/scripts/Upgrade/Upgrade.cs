@@ -23,7 +23,7 @@ public class Upgrade : MonoBehaviour
     [SerializeField] private int _maxPayChair;
 
     [SerializeField] private TriggerHandler _ChairArea;
-    [SerializeField] private TestSpawnerChair _spawnerChair;
+    //[SerializeField] private TestSpawnerChair _spawnerChair;
     [SerializeField] private int _pretiumUpgradeChairArea;
     [SerializeField] private int _countPayArea;
     [SerializeField] private int _maxPayArea;
@@ -95,7 +95,7 @@ public class Upgrade : MonoBehaviour
         if(_wallet.GetMoney() >= _pretiumUpgradeChairArea && _countPayArea < _maxPayArea)
         {
             _ChairArea.gameObject.SetActive(true);
-            _spawnerChair.enabled = true;
+            //_spawnerChair.enabled = true;
             _wallet.GiveMoney(_pretiumUpgradeChairArea);
             _countPayArea++;
         }

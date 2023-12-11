@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JoystickPlayer : MonoBehaviour
 {
-    private const string _isRun = "IsRun";
+    //private const string _isRun = "IsRun";
 
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FixedJoystick _joystickPortrait;
@@ -24,7 +25,7 @@ public class JoystickPlayer : MonoBehaviour
     private int _velocityHash =0;
 
     private Vector3 _startPosition;
-    private bool _isRunning = false;
+    //private bool _isRunning = false;
 
     private void Awake()
     {
@@ -82,7 +83,16 @@ public class JoystickPlayer : MonoBehaviour
 
         Vector3 direction = _rigidbody.velocity;
 
-        Rotate(joystick, direction);
+        
+        if(_rigidbody.velocity.magnitude <= 0.05f)
+        {
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+        else
+        {
+            Rotate(joystick, direction);
+        }
+
 
         //transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
 
@@ -108,7 +118,9 @@ public class JoystickPlayer : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1);        
+        _rigidbody.MoveRotation(targetRotation);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1);
     }
 
     private void MovePlayerAnimation(FixedJoystick joystick)

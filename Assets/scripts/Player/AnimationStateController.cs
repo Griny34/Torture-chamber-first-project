@@ -8,7 +8,7 @@ public class AnimationStateController : MonoBehaviour
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
 
-    private float _velocity = 0;
+    //private float _velocity = 0;
     private int _velocityHash;
 
     private void Start()

@@ -31,6 +31,11 @@ public class Timer : MonoBehaviour
         StopCoroutine(_tickCoroutine);
     }
 
+    public float GetTimeLife()
+    {
+        return _timeLeft;
+    }
+
     private IEnumerator TickCoroutine()
     {
         while (_timeLeft >= 1)

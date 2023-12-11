@@ -6,7 +6,7 @@ using UnityEngine;
 public class BoardsPlayer : MonoBehaviour
 {
     [SerializeField] private ChairArea _chairArea;
-    [SerializeField] private SpawnerChair _spawnerChair;
+    //[SerializeField] private SpawnerChair _spawnerChair;
     [SerializeField] private float _speed;
 
     private Stack<ChairÑreationMovements> _boardsPlayer = new Stack<ChairÑreationMovements>();
@@ -28,12 +28,12 @@ public class BoardsPlayer : MonoBehaviour
 
     private void OnTriggerStay(Collider collider)
     {
-        
+
         if (collider.transform.TryGetComponent<ChairConstructionArea>(out var chairConstructionArea) == true)
         {
 
             {
-                if(coroutine != null)
+                if (coroutine != null)
                 {
                     StopCoroutine(coroutine);
                 }
@@ -49,12 +49,12 @@ public class BoardsPlayer : MonoBehaviour
 
     public void AddBoard(ChairÑreationMovements chairConstructionArea)
     {
-        _boardsPlayer.Push(chairConstructionArea);        
+        _boardsPlayer.Push(chairConstructionArea);
     }
-    
+
     public void RemoveBoard()
     {
-        if(_boardsPlayer.Count > 0)
+        if (_boardsPlayer.Count > 0)
         {
             _boardsPlayer.Pop();
         }
@@ -64,18 +64,18 @@ public class BoardsPlayer : MonoBehaviour
     {
         isGo = true;
         nextBoard.transform.SetParent(null);
-        Debug.Log(gameObject.transform.childCount); 
+        Debug.Log(gameObject.transform.childCount);
         while (true)
-        {           
-            nextBoard.transform.position = Vector3.MoveTowards(nextBoard.transform.position, _spawnerChair.transform.position, _speed * Time.deltaTime);
-           
-            if(nextBoard.transform.position == _spawnerChair.transform.position)
-            {        
-                isGo = false;
-                RemoveBoard();
-                Destroy(nextBoard.gameObject);
+        {
+            //nextBoard.transform.position = Vector3.MoveTowards(nextBoard.transform.position, _spawnerChair.transform.position, _speed * Time.deltaTime);
+
+            //if (nextBoard.transform.position == _spawnerChair.transform.position)
+            //{
+            //    isGo = false;
+            //    RemoveBoard();
+            //    Destroy(nextBoard.gameObject);
                 yield break;
-            }
+            //}
             yield return null;
         }
     }

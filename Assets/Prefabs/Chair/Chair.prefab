@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3999615347139085001}
-  - component: {fileID: -4859968401470228012}
+  - component: {fileID: -3879935339991693789}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4859968401470228012
+--- !u!114 &-3879935339991693789
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,16 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 551502346084670650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed76bbf05e536f4b88d91fe04f8e8e2, type: 3}
+  m_Script: {fileID: 11500000, guid: b21f18ed7e13f2946be3fc187a806223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
-  onFinished:
-    m_PersistentCalls:
-      m_Calls: []
-  onStarted:
-    m_PersistentCalls:
-      m_Calls: []
+  _name: Stool
 --- !u!1001 &8777283284221644745
 PrefabInstance:
   m_ObjectHideFlags: 0

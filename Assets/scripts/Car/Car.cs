@@ -13,16 +13,17 @@ public class Car : MonoBehaviour
 
     [Header("Handlers")]
     [SerializeField] private TriggerHandler _carAria;
-    [SerializeField] private ChairInventory _chairInventory;
+    [SerializeField] private StackFurniture _stackFurniture;
+    [SerializeField] private OrdersSpawner _ordersSpawner;
 
     [SerializeField] private SpawnerMoney _spawnerMoney;
     [SerializeField] private int _countMoney;
  
-    private List<Item> _chairs = new List<Item>();
-    private Item _relevantChair;
+    private List<Furniture> _chairs = new List<Furniture>();
+    private Furniture _relevantFurniture;
     private Coroutine _corutine;
     private Coroutine _corutineChair;
-    private Vector3 _startPosition;
+    private Transform _startPosition;
     private int _countChair;
 
     public static Car Instance { get; private set;}
@@ -37,7 +38,7 @@ public class Car : MonoBehaviour
 
         Instance = this;
 
-        _startPosition = transform.position;
+        _startPosition = transform;
     }
 
     private void Start()
@@ -46,7 +47,15 @@ public class Car : MonoBehaviour
         {
             if (col.GetComponent<JoystickPlayer>() == null) return;
 
-            if(_corutineChair != null)
+            if(_stackFurniture.GetFurniture().GetName() != _ordersSpawner.RelevantOrder().GetName())
+            {
+                //Text
+                return;
+            }
+
+            _ordersSpawner.DestroyOrder();
+
+            if (_corutineChair != null)
             {
                 StopCoroutine(_corutineChair);
             }
@@ -69,14 +78,14 @@ public class Car : MonoBehaviour
 
     private IEnumerator MoveChair()
     {
-        while (_chairInventory.GetListChair().Count != 0)
+        while (_stackFurniture.GetListStack().Count != 0)
         {
-            _relevantChair = _chairInventory.GetLastItem();
+            _relevantFurniture = _stackFurniture.GetFurniture();
 
             //if (_relevantChair == null) return;
-            _chairInventory.RemoveItem(_relevantChair);
-            _relevantChair.StartMove(transform);
-            _chairs.Add(_relevantChair);
+            _stackFurniture.RemoveFurniture(_relevantFurniture, _startPosition);
+
+            _chairs.Add(_relevantFurniture);
 
             yield return new WaitForSeconds(1f);
 
@@ -90,8 +99,9 @@ public class Car : MonoBehaviour
     private IEnumerator MoveCarCoroutine()
     {
         yield return new WaitForSeconds(0.6f);
-        DestroyChair();
-        _chairs.Clear();
+        //DestroyChair();
+
+        //_chairs.Clear();
 
         while (transform.position != _positionShop.position)
         {
@@ -101,9 +111,9 @@ public class Car : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        while (transform.position != _startPosition)
+        while (transform.position != _startPosition.position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _startPosition, _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _startPosition.position, _speed * Time.deltaTime);
             yield return null;
         }
 
@@ -119,7 +129,7 @@ public class Car : MonoBehaviour
     {
         foreach(var chair in _chairs)
         {
-            Destroy(chair.gameObject);
+            Destroy(chair.gameObject, 1f);
         }
     }
 }

@@ -9,8 +9,8 @@ public class SpawnerMoney : MonoBehaviour
 
     public void CreateMoney()
     {
-        float randomX = Random.Range(-2,2);
-        float randomZ = Random.Range(-2,2);
+        float randomX = Random.Range(-1,1);
+        float randomZ = Random.Range(-1,1);
 
         Vector3 randomPosition = _positionSpawner.position + new Vector3(randomX, _positionSpawner.position.y ,randomZ);
 
