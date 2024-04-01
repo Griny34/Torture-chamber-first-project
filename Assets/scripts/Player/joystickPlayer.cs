@@ -9,7 +9,7 @@ public class JoystickPlayer : MonoBehaviour
     //private const string _isRun = "IsRun";
 
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private FixedJoystick _joystickPortrait;
+    //[SerializeField] private FixedJoystick _joystickPortrait;
     [SerializeField] private FixedJoystick _joystickLandscape;
     [SerializeField] private Animator _animator;
 
@@ -65,14 +65,14 @@ public class JoystickPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Screen.width < Screen.height)
-        {
-            MovePlayer(_joystickPortrait);
-        }
-        else
-        {
+        //if (Screen.width < Screen.height)
+        //{
+        //    MovePlayer(_joystickPortrait);
+        //}
+        //else
+        //{
             MovePlayer(_joystickLandscape);
-        }
+        //}
     }
 
     private void MovePlayer(FixedJoystick joystick)
@@ -126,9 +126,7 @@ public class JoystickPlayer : MonoBehaviour
     private void MovePlayerAnimation(FixedJoystick joystick)
     {
         if (joystick.Horizontal != 0 || joystick.Vertical != 0 && _velocity < 1)
-        {
-            
-
+        {         
             _velocity += Time.deltaTime * _acceleration;
         }
 
@@ -143,7 +141,5 @@ public class JoystickPlayer : MonoBehaviour
         }
 
         _animator.SetFloat(_velocityHash, _velocity);
-
-        Debug.Log(_velocity);
     }
 }

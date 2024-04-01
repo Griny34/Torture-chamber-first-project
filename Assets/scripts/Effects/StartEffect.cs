@@ -5,7 +5,7 @@ using UnityEngine;
 public class StartEffect : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particleSystem;
-    [SerializeField] private StoolSpawner _spawnerChair;
+    [SerializeField] private SpawnerFurniture _spawnerChair;
 
     private void OnEnable()
     {

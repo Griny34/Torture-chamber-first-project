@@ -38,6 +38,11 @@ public class StackFurniture : MonoBehaviour
 
     public Furniture GetFurniture()
     {
+        if(_furnitures.Count == 0)
+        {
+            return null;
+        }
+
         return _furnitures[_furnitures.Count - 1];
     }
 

@@ -5,26 +5,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class StoolSpawner : MonoBehaviour
+public class StoolSpawner : SpawnerFurniture
 {
-    [SerializeField] private TriggerHandler _triggerHandler;
-    [SerializeField] private TriggerHandler _ariaSpawner;
-    [SerializeField] private Stool _prefabStool;
-    [SerializeField] private Transform _pointSpawner;
+    [SerializeField] private Stool _stool;
 
-    [SerializeField] private StackMaterial _stackMaterial;
-    [SerializeField] private StackFurniture _stackFurniture;
-
-    [SerializeField] private int _countBoardsForCreate;
-
-    private List<Stool> _stools = new List<Stool>();
     private Board _boardRelevant;
     private Board _board;
-    private Coroutine _coroutine;
-    private int _countBoard;
-    private bool IsOpen = true;
 
-    public event Action OnStartEffect;
+    public override event Action OnStartEffect;
+    public override event Action OnChangeCount;
 
     private void Start()
     {
@@ -34,21 +23,21 @@ public class StoolSpawner : MonoBehaviour
 
             if (IsOpen == false) return;
 
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
+            if(GetCountFurniture() != 0) return;
 
-            _coroutine = StartCoroutine(AcceptMaterial());
+            if(_stackMaterial.GetListMaterial().Count == 0) return;
+
+            if(SearchMateriale() != null)
+            {
+                if (_coroutine != null)
+                {
+                    StopCoroutine(_coroutine);
+                }
+
+                _coroutine = StartCoroutine(AcceptMaterial());
+            }         
         };
 
-        _triggerHandler.OnExit += col =>
-        {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
-            }
-        };
 
         _ariaSpawner.OnEnter += col =>
         {
@@ -58,49 +47,68 @@ public class StoolSpawner : MonoBehaviour
         };
     }
 
-    private void CreatStool()
+    protected override void CreatFurniture()
     {
-        Stool stool = Instantiate(_prefabStool, _pointSpawner.position, Quaternion.identity);
+        Stool stool = Instantiate(_stool, _pointSpawner.position, Quaternion.identity);
 
-        _stools.Add(stool);
-
-        IsOpen = false;
+        _furnitures.Add(stool);
 
         OnStartEffect?.Invoke();       
     }
 
-    private IEnumerator AcceptMaterial()
+    protected IEnumerator AcceptMaterial()
     {
-        while (true)
+        while (_stackMaterial.GetListMaterial().Count != 0 && _countBoardsForCreate != _countBoard)
         {
-            _boardRelevant = SearchBoard();
+            _boardRelevant = SearchMateriale();
 
-            if (_boardRelevant == null)
-            {
-                //StopCoroutine(_coroutine);
-                yield break;
-            }
             _stackMaterial.RemoveDesk(_boardRelevant, gameObject.transform);
-
-            _countBoard++;
 
             yield return new WaitForSeconds(0.5f);
 
-            if (_countBoardsForCreate <= _countBoard)
+            _countBoard++;
+
+            OnChangeCount?.Invoke();
+
+            if(_countBoardsForCreate == _countBoard)
             {
-                CreatStool();
-                yield break;
+                IsOpen = false;
+
+                if (_coroutineAnimation != null)
+                {
+                    StopCoroutine(_coroutineAnimation);
+                }
+
+                _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
+        }       
+    }
+
+    protected override IEnumerator PlayAnimation()
+    {
+        _isAnimationPlay = true;
+
+        while (_isAnimationPlay != false)
+        {
+            _worker.SetBool("Work", _isAnimationPlay);
+
+            yield return new WaitForSeconds(3f);
+
+            _isAnimationPlay = false;
+
+            _worker.SetBool("Work", _isAnimationPlay);
+
+            CreatFurniture();
         }
     }
 
-    private Board SearchBoard()
-    {      
-        foreach(var material in _stackMaterial.GetListMaterial())
+    protected Board SearchMateriale()
+    {
+        foreach (var materiale in _stackMaterial.GetListMaterial())
         {
-            if(material is Board)
+            if (materiale is Board)
             {
-                _board = (Board)material;
+                _board = (Board)materiale;
                 return _board;
             }
         }
@@ -108,20 +116,27 @@ public class StoolSpawner : MonoBehaviour
         return null;
     }
 
-    private void GivStool()
+    protected override void GivStool()
     {
-        if (_stools.Count == 0) return;
+        if (_furnitures.Count == 0) return;
 
-        _stools[_stools.Count - 1].transform.position = _stackFurniture.GetTransform().position;
+        _furnitures[_furnitures.Count - 1].transform.position = _stackFurniture.GetTransform().position;
 
-        _stools[_stools.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);//
+        _furnitures[_furnitures.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);
 
-        _stackFurniture.AddFurnitur(_stools[_stools.Count - 1]);
+        _stackFurniture.AddFurnitur(_furnitures[_furnitures.Count - 1]);
 
-        _stools.Remove(_stools[_stools.Count - 1]);
+        _furnitures.Remove(_furnitures[_furnitures.Count - 1]);
 
         IsOpen = true;
 
         _countBoard = 0;
+
+        OnChangeCount?.Invoke();
+    }
+
+    public override int GetCountMatiriale()
+    {
+        return _countBoard;
     }
 }

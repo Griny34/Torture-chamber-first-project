@@ -74,7 +74,7 @@ public class BoardsPlayer : MonoBehaviour
             //    isGo = false;
             //    RemoveBoard();
             //    Destroy(nextBoard.gameObject);
-                yield break;
+                //yield break;
             //}
             yield return null;
         }

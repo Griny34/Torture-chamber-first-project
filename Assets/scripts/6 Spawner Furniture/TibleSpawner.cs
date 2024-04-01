@@ -4,31 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TibleSpawner : MonoBehaviour
+public class TibleSpawner : SpawnerFurniture
 {
-    [SerializeField] private TriggerHandler _triggerHandler;
-    [SerializeField] private TriggerHandler _ariaSpavner;
-    [SerializeField] private Table _prefabBedside;
-    [SerializeField] private Transform _pointSpawner;
-
-    [SerializeField] private StackMaterial _stackMaterial;
-    [SerializeField] private StackFurniture _stackFurniture;
-
-    [SerializeField] private int _countBoardsForCreate;
+    [SerializeField] private Table _prefabTable;
     [SerializeField] private int _countDoubleBedsideForCreate;
 
-    private List<Table> _bedsideTables = new List<Table>();
+    private DoubleBedsideTable _doubleBedsideTableRelevant;
+    private DoubleBedsideTable _doubleBedsideTable;
+    private Coroutine _coroutineAcceptFurniture;
 
-    private Board _boardRelevant;
-    private Board _board;
-    private DoubleBedsideTable _bedsideTableRelevant;
-    private DoubleBedsideTable _bedsideTable;
-    private Coroutine _coroutine;
-    private int _countBoard = 0;
-    private int _countDoubleBedside = 0;
-    private bool IsOpen = true;
-
-    public event Action OnStartEffect;
+    public override event Action OnStartEffect;
+    public override event Action OnChangeCount;
+    public override event Action OnChageCountFurniture;
 
     private void Start()
     {
@@ -38,111 +25,60 @@ public class TibleSpawner : MonoBehaviour
 
             if (IsOpen == false) return;
 
-            if (_coroutine != null)
+            if (SearchDoubleBedside() != null)
             {
-                StopCoroutine(_coroutine);
-            }
+                if (_coroutineAcceptFurniture != null)
+                {
+                    StopCoroutine(_coroutineAcceptFurniture);
+                }
 
-            _coroutine = StartCoroutine(AcceptMaterial());
-        };
-
-        _triggerHandler.OnExit += col =>
-        {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
+                _coroutineAcceptFurniture = StartCoroutine(AcceptFurniture());
             }
         };
 
-        _ariaSpavner.OnEnter += col =>
+        _ariaSpawner.OnEnter += col =>
         {
             if (_stackFurniture.IsFull == true) return;
-            Debug.Log("1111");
-            GivBedside();
+
+            GivFurniture();
         };
     }
 
-    private void CreatStool()
+    protected override void CreatFurniture()
     {
-        Table table = Instantiate(_prefabBedside, _pointSpawner.position, Quaternion.identity);
+        Table table = Instantiate(_prefabTable, _pointSpawner.position, Quaternion.identity);
 
-        _bedsideTables.Add(table);
-
-        IsOpen = false;
+        _furnitures.Add(table);
 
         OnStartEffect?.Invoke();
     }
 
     private IEnumerator AcceptFurniture()
     {
-        while (true)
+        while (_stackFurniture.GetListStack().Count != 0 && _countFurnitureForCreate != _countFurniture)
         {
-            _bedsideTableRelevant = SearchDoubleBedside();
+            _doubleBedsideTableRelevant = SearchDoubleBedside();
 
-            Debug.Log(_boardRelevant);
-
-            if (_bedsideTableRelevant == null)
-            {
-                //StopCoroutine(_coroutine);
-                yield break;
-            }
-
-            _stackFurniture.RemoveFurniture(_bedsideTableRelevant, gameObject.transform);
-
-            _countDoubleBedside++;
+            _stackFurniture.RemoveFurniture(_doubleBedsideTableRelevant, gameObject.transform);
 
             yield return new WaitForSeconds(0.5f);
 
-            if (_countBoardsForCreate <= _countBoard && _countDoubleBedsideForCreate <= _countDoubleBedside)
+            _countFurniture++;
+
+            OnChageCountFurniture?.Invoke();
+
+            if (_countBoardsForCreate == _countBoard && _countFurnitureForCreate == _countFurniture)
             {
-                CreatStool();
-                yield break;
+                IsOpen = false;
+
+                if (_coroutineAnimation != null)
+                {
+                    StopCoroutine(_coroutineAnimation);
+                }
+
+                _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
         }
-    }
-
-
-    private IEnumerator AcceptMaterial()
-    {
-        while (true)
-        {
-            _boardRelevant = SearchBoard();
-
-            if (_boardRelevant == null)
-            {
-                //StopCoroutine(_coroutine);
-                yield return StartCoroutine(AcceptFurniture());
-                yield break;
-            }
-
-            _stackMaterial.RemoveDesk(_boardRelevant, gameObject.transform);
-
-            _countBoard++;
-
-            yield return new WaitForSeconds(0.5f);
-
-            if (_countBoardsForCreate <= _countBoard)
-            {
-                //CreatStool();
-                yield return StartCoroutine(AcceptFurniture());
-                yield break;
-            }
-        }
-    }
-
-
-    private Board SearchBoard()
-    {
-        foreach (var materiale in _stackMaterial.GetListMaterial())
-        {
-            if (materiale is Board)
-            {
-                _board = (Board)materiale;
-                return _board;
-            }
-        }
-
-        return null;
     }
 
     private DoubleBedsideTable SearchDoubleBedside()
@@ -151,28 +87,50 @@ public class TibleSpawner : MonoBehaviour
         {
             if (furniture is DoubleBedsideTable)
             {
-                _bedsideTable = (DoubleBedsideTable)furniture;
-                return _bedsideTable;
+                _doubleBedsideTable = (DoubleBedsideTable)furniture;
+                return _doubleBedsideTable;
             }
         }
 
         return null;
     }
 
-    private void GivBedside()
+    protected override IEnumerator PlayAnimation()
     {
-        if (_bedsideTables.Count == 0) return;
-        Debug.Log(_bedsideTables[_bedsideTables.Count - 1]);
-        _bedsideTables[_bedsideTables.Count - 1].transform.position = _stackFurniture.GetTransform().position;
+        _isAnimationPlay = true;
 
-        _bedsideTables[_bedsideTables.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);//
+        while (_isAnimationPlay != false)
+        {
+            _worker.SetBool("Work", _isAnimationPlay);
 
-        _stackFurniture.AddFurnitur(_bedsideTables[_bedsideTables.Count - 1]);
+            yield return new WaitForSeconds(3f);
 
-        _bedsideTables.Remove(_bedsideTables[_bedsideTables.Count - 1]);
+            _isAnimationPlay = false;
+
+            _worker.SetBool("Work", _isAnimationPlay);
+
+            CreatFurniture();
+        }
+    }
+
+    private void GivFurniture()
+    {
+        if (_furnitures.Count == 0) return;
+
+        _furnitures[_furnitures.Count - 1].transform.position = _stackFurniture.GetTransform().position;
+
+        _furnitures[_furnitures.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);
+
+        _stackFurniture.AddFurnitur(_furnitures[_furnitures.Count - 1]);
+
+        _furnitures.Remove(_furnitures[_furnitures.Count - 1]);
 
         IsOpen = true;
 
         _countBoard = 0;
+        _countFurniture = 0;
+
+        OnChangeCount?.Invoke();
+        OnChageCountFurniture?.Invoke();
     }
 }

@@ -7,10 +7,11 @@ public class Trashcan : MonoBehaviour
 {
     [SerializeField] private TriggerHandler _triggerHandler;
     [SerializeField] private StackMaterial _stackMaterial;
-    //[SerializeField] private StackFurniture _stackFurniture;
+    [SerializeField] private StackFurniture _stackFurniture;
 
     private Coroutine _coroutine;
     private Material _material;
+    private Furniture _furniture;
 
     private void Start()
     {
@@ -40,6 +41,15 @@ public class Trashcan : MonoBehaviour
             _material = _stackMaterial.GetLastDesk();
 
             _stackMaterial.RemoveDesk(_material, gameObject.transform);
+
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        while(_stackFurniture.GetListStack().Count != 0)
+        {
+            _furniture = _stackFurniture.GetFurniture();
+
+            _stackFurniture.RemoveFurniture(_furniture, gameObject.transform);
 
             yield return new WaitForSeconds(0.5f);
         }

@@ -4,27 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleBedsideSpawner : MonoBehaviour
+public class DoubleBedsideSpawner : SpawnerFurniture
 {
-    [SerializeField] private TriggerHandler _triggerHandler;
-    [SerializeField] private TriggerHandler _ariaSpavner;
-    [SerializeField] private DoubleBedsideTable _prefabBedside;
-    [SerializeField] private Transform _pointSpawner;
+    [SerializeField] private DoubleBedsideTable _prefabDoubleBedsideTable;
+    [SerializeField] private int _countDoubleBedsideForCreate;
 
-    [SerializeField] private StackMaterial _stackMaterial;
-    [SerializeField] private StackFurniture _stackFurniture;
+    private BedsideTable _bedsideTableRelevant;
+    private BedsideTable _bedsideTable;
+    private Coroutine _coroutineAcceptFurniture;
 
-    [SerializeField] private int _countBoardsForCreate;
-
-    private List<DoubleBedsideTable> _bedsideTables = new List<DoubleBedsideTable>();
-
-    private BedsideTable _boardRelevant;
-    private BedsideTable _board;
-    private Coroutine _coroutine;
-    private int _countBoard = 0;
-    private bool IsOpen = true;
-
-    public event Action OnStartEffect;
+    public override event Action OnStartEffect;
+    public override event Action OnChangeCount;
+    public override event Action OnChageCountFurniture;
 
     private void Start()
     {
@@ -34,95 +25,112 @@ public class DoubleBedsideSpawner : MonoBehaviour
 
             if (IsOpen == false) return;
 
-            if (_coroutine != null)
+            if (SearchBedsideTable() != null)
             {
-                StopCoroutine(_coroutine);
-            }
+                if (_coroutineAcceptFurniture != null)
+                {
+                    StopCoroutine(_coroutineAcceptFurniture);
+                }
 
-            _coroutine = StartCoroutine(AcceptMaterial());
-        };
-
-        _triggerHandler.OnExit += col =>
-        {
-            if (_coroutine != null)
-            {
-                StopCoroutine(_coroutine);
+                _coroutineAcceptFurniture = StartCoroutine(AcceptFurniture());
             }
         };
 
-        _ariaSpavner.OnEnter += col =>
+        _ariaSpawner.OnEnter += col =>
         {
             if (_stackFurniture.IsFull == true) return;
 
-            GivBedside();
+            GivFurniture();
         };
     }
 
-    private void CreatStool()
+    protected override void CreatFurniture()
     {
-        DoubleBedsideTable bedsideTables = Instantiate(_prefabBedside, _pointSpawner.position, Quaternion.identity);
+        DoubleBedsideTable bedsideTables = Instantiate(_prefabDoubleBedsideTable, _pointSpawner.position, Quaternion.identity);
 
-        _bedsideTables.Add(bedsideTables);
-
-        IsOpen = false;
+        _furnitures.Add(bedsideTables);
 
         OnStartEffect?.Invoke();
     }
 
-    private IEnumerator AcceptMaterial()
+    private IEnumerator AcceptFurniture()
     {
-        while (true)
+        while (_stackFurniture.GetListStack().Count != 0 && _countFurnitureForCreate != _countFurniture)
         {
-            _boardRelevant = SearchBoard();
+            _bedsideTableRelevant = SearchBedsideTable();
 
-            if (_boardRelevant == null)
-            {
-                //StopCoroutine(_coroutine);
-                yield break;
-            }
-
-            _stackFurniture.RemoveFurniture(_boardRelevant, gameObject.transform);
-           
-            _countBoard++;
+            _stackFurniture.RemoveFurniture(_bedsideTableRelevant, gameObject.transform);
 
             yield return new WaitForSeconds(0.5f);
 
-            if (_countBoardsForCreate <= _countBoard)
+            _countFurniture++;
+
+            OnChageCountFurniture?.Invoke();
+
+            if (_countBoardsForCreate == _countBoard && _countFurnitureForCreate == _countFurniture)
             {
-                CreatStool();
-                yield break;
+                IsOpen = false;
+
+                if (_coroutineAnimation != null)
+                {
+                    StopCoroutine(_coroutineAnimation);
+                }
+
+                _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
         }
     }
 
-    private BedsideTable SearchBoard()
+    protected override IEnumerator PlayAnimation()
+    {
+        _isAnimationPlay = true;
+
+        while (_isAnimationPlay != false)
+        {
+            _worker.SetBool("Work", _isAnimationPlay);
+
+            yield return new WaitForSeconds(3f);
+
+            _isAnimationPlay = false;
+
+            _worker.SetBool("Work", _isAnimationPlay);
+
+            CreatFurniture();
+        }
+    }
+
+    private BedsideTable SearchBedsideTable()
     {
         foreach (var furniture in _stackFurniture.GetListStack())
         {
             if (furniture is BedsideTable)
             {
-                _board = (BedsideTable)furniture;
-                return _board;
+                _bedsideTable = (BedsideTable)furniture;
+                return _bedsideTable;
             }
         }
 
         return null;
     }
 
-    private void GivBedside()
+    private void GivFurniture()
     {
-        if (_bedsideTables.Count == 0) return;
+        if (_furnitures.Count == 0) return;
 
-        _bedsideTables[_bedsideTables.Count - 1].transform.position = _stackFurniture.GetTransform().position;
+        _furnitures[_furnitures.Count - 1].transform.position = _stackFurniture.GetTransform().position;
 
-        _bedsideTables[_bedsideTables.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);//
+        _furnitures[_furnitures.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);
 
-        _stackFurniture.AddFurnitur(_bedsideTables[_bedsideTables.Count - 1]);
+        _stackFurniture.AddFurnitur(_furnitures[_furnitures.Count - 1]);
 
-        _bedsideTables.Remove(_bedsideTables[_bedsideTables.Count - 1]);
+        _furnitures.Remove(_furnitures[_furnitures.Count - 1]);
 
         IsOpen = true;
 
         _countBoard = 0;
+        _countFurniture = 0;
+
+        OnChangeCount?.Invoke();
+        OnChageCountFurniture?.Invoke();
     }
 }

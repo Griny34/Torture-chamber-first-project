@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchCanvas : MonoBehaviour
+public class SwitchCanvas : SwitchCanvasMenu
 {
-    [SerializeField] private GameObject _portrait;
-    [SerializeField] private GameObject _landscape;
+    [SerializeField] private GameObject _portraitOrders;
+    [SerializeField] private GameObject _landscapeOrders;
 
-    private void Update()
+    protected override void SwitchVerticalView()
     {
-        if(Screen.width < Screen.height)
-        {
-            _portrait.SetActive(true);
-            _landscape.SetActive(false);
-        }
-        else
-        {
-            _portrait.SetActive(false);
-            _landscape.SetActive(true);
-        }
+        _portraitOrders.SetActive(true);
+
+        _landscapeOrders.SetActive(false);
+    }
+
+    protected override void SwitchHorizontalView()
+    {
+        _portraitOrders.SetActive(false);
+
+        _landscapeOrders.SetActive(true);
     }
 }

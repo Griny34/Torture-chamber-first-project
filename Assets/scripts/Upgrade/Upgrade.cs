@@ -9,33 +9,33 @@ public class Upgrade : MonoBehaviour
 {
     public static Upgrade Instace { get; private set; }
 
+    [SerializeField] private SoundPlayer _soundPlayer;
     [SerializeField] private Wallet _wallet;
     [SerializeField] private int _pretiumUpgradeSpeedPlayer;
-    [SerializeField] private int _countPaySpeed;
+    public int CountPaySpeed { get; private set; } = 0;
     [SerializeField] private int _maxPaySpeed;
 
     [SerializeField] private int _pretiumUpgradeDeskInventory;
-    [SerializeField] private int _countPayDesk;
+    public int CountPayDesk { get; private set; } = 0;
     [SerializeField] private int _maxPayDesk;
 
     [SerializeField] private int _pretiumUpgradeChairInventory;
-    [SerializeField] private int _countPayChair;
+    public int CountPayChair { get; private set; } = 0;
     [SerializeField] private int _maxPayChair;
 
-    [SerializeField] private TriggerHandler _ChairArea;
-    //[SerializeField] private TestSpawnerChair _spawnerChair;
-    [SerializeField] private int _pretiumUpgradeChairArea;
-    [SerializeField] private int _countPayArea;
-    [SerializeField] private int _maxPayArea;
-
     [SerializeField] private int _pretiumUpgradeMoney;
-    [SerializeField] private int _countPayMoney;
+    public int CountPayMoney { get; private set; } = 0;
     [SerializeField] private int _maxPayMoney;
 
     public event Action OnBuySpeedPlayer;
     public event Action OnBuyDeskInventory;
     public event Action OnBuyChairInventory;
     public event Action OnBuyMoney;
+
+    public event Action OnCanNotBuySpeed;
+    public event Action OnCanNotBayDesk;
+    public event Action OnCanNotBayChair;
+    public event Action OnCanNotBuyMoney;
 
     private void Awake()
     {
@@ -50,72 +50,65 @@ public class Upgrade : MonoBehaviour
 
     public void BuyUpgradeSpeedPlayer()
     {
-        if(_wallet.GetMoney() >= _pretiumUpgradeSpeedPlayer && _countPaySpeed < _maxPaySpeed)
+        if(_wallet.GetMoney() >= _pretiumUpgradeSpeedPlayer && CountPaySpeed < _maxPaySpeed)
         {
-            OnBuySpeedPlayer?.Invoke();
+            _soundPlayer.ClickSoundButtonPlay();
             _wallet.GiveMoney(_pretiumUpgradeSpeedPlayer);
-            _countPaySpeed++;
+            CountPaySpeed++;
+            OnBuySpeedPlayer?.Invoke();
         }
         else
         {
-            //событие со звуком и покраснением бумажника
+            _soundPlayer.ClickSoundOther();
+            OnCanNotBuySpeed?.Invoke();
         }
     }
 
     public void BuyUpgrateDeskInventory()
     {
-        if (_wallet.GetMoney() >= _pretiumUpgradeSpeedPlayer && _countPayDesk < _maxPayDesk)
+        if (_wallet.GetMoney() >= _pretiumUpgradeSpeedPlayer && CountPayDesk < _maxPayDesk)
         {
-            OnBuyDeskInventory?.Invoke();
+            _soundPlayer.ClickSoundButtonPlay();
             _wallet.GiveMoney(_pretiumUpgradeDeskInventory);
-            _countPayDesk++;
+            CountPayDesk++;
+            OnBuyDeskInventory?.Invoke();
         }
         else
         {
-
+            OnCanNotBayDesk?.Invoke();
+            _soundPlayer.ClickSoundOther();
         }  
     }
 
     public void BuyUpgrateChairInventory()
     {
-        if(_wallet.GetMoney() >= _pretiumUpgradeChairInventory && _countPayChair < _maxPayChair)
+        if(_wallet.GetMoney() >= _pretiumUpgradeChairInventory && CountPayChair < _maxPayChair)
         {
-            OnBuyChairInventory?.Invoke();
+            _soundPlayer.ClickSoundButtonPlay();
             _wallet.GiveMoney(_pretiumUpgradeChairInventory);
-            _countPayChair++;
+            CountPayChair++;
+            OnBuyChairInventory?.Invoke();
         }
         else
         {
-
-        }
-    }
-
-    public void BuyUpgrateAreaChair()
-    {
-        if(_wallet.GetMoney() >= _pretiumUpgradeChairArea && _countPayArea < _maxPayArea)
-        {
-            _ChairArea.gameObject.SetActive(true);
-            //_spawnerChair.enabled = true;
-            _wallet.GiveMoney(_pretiumUpgradeChairArea);
-            _countPayArea++;
-        }
-        else
-        {
-
+            OnCanNotBayChair?.Invoke();
+            _soundPlayer.ClickSoundOther();
         }
     }
 
     public void BuyUpgrateMoney()
     {
-        if(_wallet.GetMoney() >= _pretiumUpgradeMoney && _countPayMoney < _maxPayMoney)
+        if(_wallet.GetMoney() >= _pretiumUpgradeMoney && CountPayMoney < _maxPayMoney)
         {
-            OnBuyMoney?.Invoke();
+            _soundPlayer.ClickSoundButtonPlay();
             _wallet.GiveMoney(_pretiumUpgradeMoney);
-            _countPayMoney++;
+            CountPayMoney++;
+            OnBuyMoney?.Invoke();
         }
         else
         {
-
+            OnCanNotBuyMoney?.Invoke();
+            _soundPlayer.ClickSoundOther();
         }
     }
 }

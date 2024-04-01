@@ -8,8 +8,9 @@ public class MatchModel : MonoBehaviour
 {
     public static MatchModel Instace { get; private set; }
 
+
+    [SerializeField] private InterstishelServise _interstishelServise;
     [SerializeField] private MatchModelSO[] _allMatch;
-    [SerializeField] private Enemy _enemyHard;
 
     [Header("Timer")]
     [SerializeField] private Timer _gameTimer;
@@ -49,30 +50,28 @@ public class MatchModel : MonoBehaviour
     private void Start()
     {
         Initialize();
+
         _gameTimer.OnDone += () =>
         {
-            Wallet.Instance.TakeMoney(Balance.Instance.GetMoney());
-            Balance.Instance.StartNewLevel();
-
-            if(Wallet.Instance.GetMoney() > _enemyHard.GetMoneyEnemy())
-            {
-                onWin?.Invoke();
-            }
-
             FinishMatch();
         };
     }
 
     public void Initialize()
     {
-        _gameTimer.StartTimer(CurrentMatch.Time);       
+        _gameTimer.StartTimer(CurrentMatch.Time);
+
+        Wallet.Instance.RestartSalary();
     }
 
     public void StartNextMatch()
     {
-        _currentMatchIndex++;
+        _interstishelServise.ShowInterstitial(StartNestLevel);
+    }
 
-        if(_currentMatchIndex >= _allMatch.Length)
+    private void StartNestLevel()
+    {
+        if (_currentMatchIndex >= _allMatch.Length)
         {
             // logic
             SceneManager.LoadScene(1);
@@ -95,7 +94,5 @@ public class MatchModel : MonoBehaviour
         {
             onFinished?.Invoke(); 
         }));
-
-        //Agava.YandexGames.VideoAd.Show();
-    }
+    }   
 }

@@ -8,12 +8,7 @@ public class Camera : MonoBehaviour
     [SerializeField] private JoystickPlayer _player;
     [SerializeField] private float _speed;
 
-    private Vector3 _startPosition;
-
-    private void Start()
-    {
-        _startPosition = transform.position;
-    }
+    [SerializeField] private Vector3 _startPosition;
 
     private void FixedUpdate()
     {

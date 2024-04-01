@@ -7,7 +7,6 @@ public class TimerView : MonoBehaviour
 {
     [SerializeField] private Timer _timer;
     [SerializeField] private TextMeshProUGUI _timerText;
-    [SerializeField] private TextMeshProUGUI _timerText2;
 
     private void Awake()
     {
@@ -21,7 +20,6 @@ public class TimerView : MonoBehaviour
     private void UpdateUI(int seconds)
     {
         _timerText.text = ParseTime(seconds);
-        _timerText2.text = ParseTime(seconds);
     }
 
     private string ParseTime(int seconds)

@@ -9,7 +9,10 @@ public class Wallet : MonoBehaviour
 
     [SerializeField] private int _money;
 
+    private int _salary = 0;
+
     public event Action<int> OnMoneyChanged;
+    public event Action<int> OnSalaryChanged;
 
     private void Awake()
     {
@@ -20,6 +23,25 @@ public class Wallet : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public int GetSalary()
+    {
+        return _salary;
+    }
+
+    public void TakeSalary(int money)
+    {
+        _salary += money;
+
+        OnSalaryChanged?.Invoke(money);
+    }
+
+    public void RestartSalary()
+    {
+        _salary = 0;
+
+        OnSalaryChanged?.Invoke(0);
     }
 
     public int GetMoney()

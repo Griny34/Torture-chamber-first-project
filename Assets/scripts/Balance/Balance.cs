@@ -7,7 +7,7 @@ public class Balance : MonoBehaviour
 {
     public static Balance Instance { get; private set; }
 
-    [SerializeField] private int _balance;
+    private int _balance = 0;
 
     public event Action<int> OnBalanceChanged;
 

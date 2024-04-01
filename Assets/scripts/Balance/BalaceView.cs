@@ -13,14 +13,10 @@ public class BalaceView : MonoBehaviour
     {
         _balance.OnBalanceChanged += value =>
         {
-            UpdateUI();
+            _money.text = _balance.GetMoney().ToString();
+            _money2.text = _balance.GetMoney().ToString();
         };
 
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
         _money.text = _balance.GetMoney().ToString();
         _money2.text = _balance.GetMoney().ToString();
     }

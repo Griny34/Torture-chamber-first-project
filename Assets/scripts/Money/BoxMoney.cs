@@ -11,11 +11,13 @@ public class BoxMoney : MonoBehaviour
     {
         if (collider.transform.TryGetComponent<JoystickPlayer>(out var player) == true)
         {
-            Balance.Instance.TakeMoney(Money.Instance.GetMoneyValue());
+            Wallet.Instance.TakeMoney(Money.Instance.GetMoneyValue());
+
+            Wallet.Instance.TakeSalary(Money.Instance.GetMoneyValue());
 
             _particleSystem.Play();
 
             Destroy(gameObject, 0.5f);
         }
-    } 
+    }   
 }

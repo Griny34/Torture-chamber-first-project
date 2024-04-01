@@ -29,7 +29,7 @@ public class OrdersSpawner : MonoBehaviour
 
         if (clon.GetBool() == true)
         {
-            Order order = Instantiate(clon, _pointOrder.position, Quaternion.identity, _canvas.transform);
+            Order order = Instantiate(clon, _pointOrder.position, Quaternion.identity, _pointFinish);
 
             _validOrders.Add(order);
         }
