@@ -9,11 +9,21 @@ public class MatchModel : MonoBehaviour
     public static MatchModel Instace { get; private set; }
 
 
-    [SerializeField] private InterstishelServise _interstishelServise;
+    [SerializeField] private InterstishelService _interstishelServise;
     [SerializeField] private MatchModelSO[] _allMatch;
+    [SerializeField] private RealizationReward _realizationReward;
 
     [Header("Timer")]
     [SerializeField] private Timer _gameTimer;
+
+    [Header("Improvement")]
+    [SerializeField] private ImprovmentSpawner _improvmentSpawnerChair;
+    [SerializeField] private ImprovmentSpawner _improvmentSpawnerArmChair;
+    [SerializeField] private ImprovmentSpawner _improvmentSpawnerOnWheel;
+    [SerializeField] private ImprovmentSpawner _improvmentSpawnerDouble;
+    [SerializeField] private ImprovmentSpawner _improvmentSpawnerTable;
+    [SerializeField] private ImprovmentMateriale _improvmentMaterialeLeather;
+    [SerializeField] private ImprovmentMateriale _improvmentMaterialeWheel;
 
     [Header("Events")]
     [SerializeField] private UnityEvent onFinishing;
@@ -62,6 +72,7 @@ public class MatchModel : MonoBehaviour
         _gameTimer.StartTimer(CurrentMatch.Time);
 
         Wallet.Instance.RestartSalary();
+        
     }
 
     public void StartNextMatch()
@@ -71,6 +82,8 @@ public class MatchModel : MonoBehaviour
 
     private void StartNestLevel()
     {
+        SaveGame();
+
         if (_currentMatchIndex >= _allMatch.Length)
         {
             // logic
@@ -78,6 +91,8 @@ public class MatchModel : MonoBehaviour
             return;
         }
 
+
+        _realizationReward.OpenSpawner();
         Time.timeScale = 1;
         _gameTimer.Stop();
         Initialize();
@@ -94,5 +109,18 @@ public class MatchModel : MonoBehaviour
         {
             onFinished?.Invoke(); 
         }));
-    }   
+    }
+    
+    private void SaveGame()
+    {
+        Wallet.Instance.SaveMoney();       
+
+        _improvmentSpawnerChair.SaveValueCounter();
+        _improvmentSpawnerArmChair.SaveValueCounter();
+        _improvmentSpawnerOnWheel.SaveValueCounter();
+        _improvmentSpawnerDouble.SaveValueCounter();
+        _improvmentSpawnerTable.SaveValueCounter();
+        _improvmentMaterialeLeather.SaveValueCounter();
+        _improvmentMaterialeWheel.SaveValueCounter();
+    }
 }

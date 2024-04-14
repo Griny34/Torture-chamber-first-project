@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _name: ChairOnWheels
-  _price: 4
+  _price: 10

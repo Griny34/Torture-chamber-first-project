@@ -46,6 +46,13 @@ public class Upgrade : MonoBehaviour
         }
 
         Instace = this;
+
+
+    }
+
+    private void Start()
+    {
+
     }
 
     public void BuyUpgradeSpeedPlayer()
@@ -56,6 +63,7 @@ public class Upgrade : MonoBehaviour
             _wallet.GiveMoney(_pretiumUpgradeSpeedPlayer);
             CountPaySpeed++;
             OnBuySpeedPlayer?.Invoke();
+            PlayerPrefs.SetInt("CountPaySpeed", CountPaySpeed);
         }
         else
         {
@@ -72,6 +80,7 @@ public class Upgrade : MonoBehaviour
             _wallet.GiveMoney(_pretiumUpgradeDeskInventory);
             CountPayDesk++;
             OnBuyDeskInventory?.Invoke();
+            PlayerPrefs.SetInt("CountPayDesk", CountPayDesk);
         }
         else
         {
@@ -88,6 +97,7 @@ public class Upgrade : MonoBehaviour
             _wallet.GiveMoney(_pretiumUpgradeChairInventory);
             CountPayChair++;
             OnBuyChairInventory?.Invoke();
+            PlayerPrefs.SetInt("CountPayChair", CountPayChair);
         }
         else
         {
@@ -104,11 +114,24 @@ public class Upgrade : MonoBehaviour
             _wallet.GiveMoney(_pretiumUpgradeMoney);
             CountPayMoney++;
             OnBuyMoney?.Invoke();
+            PlayerPrefs.SetInt("CountPayMoney", CountPayMoney);
         }
         else
         {
             OnCanNotBuyMoney?.Invoke();
             _soundPlayer.ClickSoundOther();
         }
+    }
+
+    public void LoadTryes()
+    {
+        CountPaySpeed = PlayerPrefs.GetInt("CountPaySpeed");
+        OnBuySpeedPlayer?.Invoke();
+        CountPayDesk = PlayerPrefs.GetInt("CountPayDesk");
+        OnBuyDeskInventory?.Invoke();
+        CountPayChair = PlayerPrefs.GetInt("CountPayChair");
+        OnBuyChairInventory?.Invoke();
+        CountPayMoney = PlayerPrefs.GetInt("CountPayMoney");
+        OnBuyMoney?.Invoke();
     }
 }

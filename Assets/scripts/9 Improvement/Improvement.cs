@@ -19,6 +19,8 @@ public abstract class Improvement : MonoBehaviour
     private int _valueCounter;
     private Coroutine _coroutine;
 
+    private bool _isOpen =  true;
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.TryGetComponent<JoystickPlayer>(out JoystickPlayer joystickPlayer) == true)
@@ -58,10 +60,41 @@ public abstract class Improvement : MonoBehaviour
                 _text.gameObject.SetActive(false);
                 Change();
                 _triggerHandler.gameObject.SetActive(true);
+                ChangeBoolIsOpen();
             }
 
             yield return new WaitForSeconds(_speedBay);
         }
+    }
+
+    protected void OpenSpawner()
+    {
+        gameObject.SetActive(false);
+        _text.gameObject.SetActive(false);
+        Change();
+        _triggerHandler.gameObject.SetActive(true);
+    }
+
+    protected int GetValueCounter()
+    {
+        return _valueCounter;
+    }
+
+    protected void ChangeValueCounter(int saveValue)
+    {
+        _valueCounter = saveValue;
+
+        _valueOnText.text = _valueCounter.ToString();
+    }
+
+    protected bool GetBoolIsOpen()
+    {
+        return _isOpen;
+    }
+
+    protected void ChangeBoolIsOpen()
+    {
+        _isOpen = false;
     }
 
     protected virtual void Change() {}

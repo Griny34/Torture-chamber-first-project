@@ -25,6 +25,11 @@ public class Wallet : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        LoadMoney();
+    }
+
     public int GetSalary()
     {
         return _salary;
@@ -61,5 +66,27 @@ public class Wallet : MonoBehaviour
         _money -= money;
 
         OnMoneyChanged?.Invoke(money);
+    }
+
+    public void SaveMoney()
+    {
+        PlayerPrefs.SetInt("Money", _money);
+    }
+
+    public void LoadMoney()
+    {
+        if (PlayerPrefs.HasKey("Money") == false)
+            return;
+
+        int money = PlayerPrefs.GetInt("Money");
+
+        _money = money;
+
+        OnMoneyChanged?.Invoke(money);
+    }
+
+    private void UpdateMoney()
+    {
+        
     }
 }
