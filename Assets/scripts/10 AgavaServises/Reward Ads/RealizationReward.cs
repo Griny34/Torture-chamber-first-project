@@ -14,15 +14,16 @@ public class RealizationReward : MonoBehaviour
     private List<int> _numberMoney = new List<int> { 1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,4,4,4,10};
     private Coroutine _coroutine;
     private int repetitions;
-    private bool isOpenReward = true;
+    private bool _isOpenReward = true;
 
     private void Start()
-    {
-        if (isOpenReward == false) return;
-
+    {       
         _triggerHandler.OnEnter += col =>
         {
-            _rewardService.ShowRewardAds(StartCorutineAds);          
+            if (_isOpenReward == true)
+            {
+                _rewardService.ShowRewardAds(StartCorutineAds);          
+            } 
         };
 
         _triggerHandler.OnExit += col => 
@@ -36,7 +37,7 @@ public class RealizationReward : MonoBehaviour
 
     public void OpenSpawner()
     {
-        isOpenReward = true;
+        _isOpenReward = true;
     }
     
     private void StartCorutineAds()
@@ -55,7 +56,7 @@ public class RealizationReward : MonoBehaviour
 
         repetitions = _numberMoney[number];
 
-        while (isOpenReward != false)
+        while (_isOpenReward != false)
         {
             yield return new WaitForSeconds(_delay);
 
@@ -68,7 +69,7 @@ public class RealizationReward : MonoBehaviour
                 yield return new WaitForSeconds(_delaySpawn);
             }
 
-            isOpenReward = false;
+            _isOpenReward = false;
 
             yield return null;
         }
