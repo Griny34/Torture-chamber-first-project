@@ -16,9 +16,15 @@ public class StackMaterial : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("MaxCountDesk"))
+        {
+            _maxCountdesk = PlayerPrefs.GetInt("MaxCountDesk");
+        }
+
         Upgrade.Instace.OnBuyDeskInventory += () =>
         {
             _maxCountdesk++;
+            PlayerPrefs.SetInt("MaxCountDesk", _maxCountdesk);
         };
     }
 

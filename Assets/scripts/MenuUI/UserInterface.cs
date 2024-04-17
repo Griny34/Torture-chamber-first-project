@@ -17,7 +17,7 @@ public class UserInterface : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void RestartGame()
+    public void LoadMenu()
     {
         SceneManager.LoadScene(1);
     }

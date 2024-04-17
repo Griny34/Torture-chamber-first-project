@@ -28,8 +28,8 @@ public class FocusServise : MonoBehaviour
 
     private void OnInBakgroundChangeApp(bool app)
     {
-        MuteAudio(app);
-        PauseGame(app);
+        MuteAudio(!app);
+        PauseGame(!app);
     }
 
     private void OnInBakgroundChangeWeb(bool isBackGround)

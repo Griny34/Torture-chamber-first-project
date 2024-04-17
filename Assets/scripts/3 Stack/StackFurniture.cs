@@ -12,6 +12,11 @@ public class StackFurniture : MonoBehaviour
 
     public bool IsFull { get; private set; } = false;
 
+    private void Start()
+    {
+        
+    }
+
     public void RemoveFurniture(Furniture furniture, Transform pointDestroy)
     {
         if (furniture == null) return;

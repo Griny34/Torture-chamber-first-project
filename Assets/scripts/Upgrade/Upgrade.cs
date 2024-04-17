@@ -46,13 +46,6 @@ public class Upgrade : MonoBehaviour
         }
 
         Instace = this;
-
-
-    }
-
-    private void Start()
-    {
-
     }
 
     public void BuyUpgradeSpeedPlayer()

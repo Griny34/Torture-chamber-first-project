@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,11 @@ public class Money : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("Money"))
+        {
+            _value = PlayerPrefs.GetInt("Money");
+        }
+
         Upgrade.Instace.OnBuyMoney += () =>
         {
             UpgradeMoney();
@@ -36,5 +42,7 @@ public class Money : MonoBehaviour
     private void UpgradeMoney()
     {
         _value += _upgradeMoney;
+
+        PlayerPrefs.SetInt("Money", _value);
     }
 }

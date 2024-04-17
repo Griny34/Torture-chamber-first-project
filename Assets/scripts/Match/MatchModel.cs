@@ -12,6 +12,7 @@ public class MatchModel : MonoBehaviour
     [SerializeField] private InterstishelService _interstishelServise;
     [SerializeField] private MatchModelSO[] _allMatch;
     [SerializeField] private RealizationReward _realizationReward;
+    [SerializeField] private YndexLeaderBoardMini _mini;
 
     [Header("Timer")]
     [SerializeField] private Timer _gameTimer;
@@ -83,6 +84,8 @@ public class MatchModel : MonoBehaviour
     private void StartNestLevel()
     {
         SaveGame();
+
+        _mini.SetPlayerScor(Wallet.Instance.GetSalary());
 
         if (_currentMatchIndex >= _allMatch.Length)
         {

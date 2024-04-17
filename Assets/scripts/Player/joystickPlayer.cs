@@ -22,7 +22,7 @@ public class JoystickPlayer : MonoBehaviour
 
 
     private float _velocity = 0;
-    private int _velocityHash =0;
+    private int _velocityHash = 0;
 
     private Vector3 _startPosition;
     //private bool _isRunning = false;
@@ -34,6 +34,11 @@ public class JoystickPlayer : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("Speed"))
+        {
+            _speed = PlayerPrefs.GetFloat("Speed");
+        }
+       
         _rigidbody = GetComponent<Rigidbody>();
 
         _velocityHash = Animator.StringToHash("Velocity");
@@ -47,6 +52,8 @@ public class JoystickPlayer : MonoBehaviour
         Upgrade.Instace.OnBuySpeedPlayer += () =>
         {
             _speed += _upgradeSpeed;
+
+            PlayerPrefs.SetFloat("Speed", _speed);
         };       
     }
 

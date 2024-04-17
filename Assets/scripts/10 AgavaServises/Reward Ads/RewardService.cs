@@ -5,27 +5,23 @@ using UnityEngine;
 
 public class RewardService : MonoBehaviour
 {
-    public void ShowRewardAds(Action onCloseCallBack = null)
+    public void ShowRewardAds()
     {
         if (Agava.WebUtility.WebApplication.IsRunningOnWebGL == false)
         {
-            onCloseCallBack?.Invoke();
+            
             return;
         }
 
 
         if (Agava.WebUtility.AdBlock.Enabled == true)
         {
-            onCloseCallBack?.Invoke();
+           
             return;
         }
 
 
-        Agava.YandexGames.VideoAd.Show(OnOpenColbek, () =>
-        {
-            OnCloseColbek();
-            onCloseCallBack?.Invoke();
-        });
+        Agava.YandexGames.VideoAd.Show(OnOpenColbek, AddMoney, OnCloseColbek);
     }
 
     private void OnOpenColbek()
@@ -34,6 +30,10 @@ public class RewardService : MonoBehaviour
         AudioListener.volume = 0f;
     }
 
+    private void AddMoney()
+    {
+
+    }
     private void OnCloseColbek()
     {
         Time.timeScale = 1;

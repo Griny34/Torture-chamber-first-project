@@ -47,4 +47,9 @@ public class Timer : MonoBehaviour
 
         OnDone?.Invoke();
     }
+
+    public void FinishShift()
+    {
+        _timeLeft = 1;
+    }
 }
