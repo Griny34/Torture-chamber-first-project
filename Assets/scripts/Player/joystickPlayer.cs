@@ -10,7 +10,7 @@ public class JoystickPlayer : MonoBehaviour
 
     [SerializeField] private Rigidbody _rigidbody;
     //[SerializeField] private FixedJoystick _joystickPortrait;
-    [SerializeField] private FixedJoystick _joystickLandscape;
+    [SerializeField] private DynamicJoystick _joystickLandscape;
     [SerializeField] private Animator _animator;
 
     [SerializeField] private float _speed;
@@ -82,7 +82,7 @@ public class JoystickPlayer : MonoBehaviour
         //}
     }
 
-    private void MovePlayer(FixedJoystick joystick)
+    private void MovePlayer(DynamicJoystick joystick)
     {
         _rigidbody.velocity = new Vector3(joystick.Horizontal * _speed, _rigidbody.velocity.y, joystick.Vertical * _speed);
 
@@ -118,7 +118,7 @@ public class JoystickPlayer : MonoBehaviour
         //}
     }
 
-    private void Rotate(FixedJoystick joystick, Vector3 direction)
+    private void Rotate(DynamicJoystick joystick, Vector3 direction)
     {
         if (direction.sqrMagnitude < 0.1f) 
             return;
