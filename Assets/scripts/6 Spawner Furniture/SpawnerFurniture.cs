@@ -136,7 +136,7 @@ public abstract class SpawnerFurniture : MonoBehaviour
 
         _furnitures[_furnitures.Count - 1].transform.position = _stackFurniture.GetTransform().position;
 
-        _furnitures[_furnitures.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);//
+        _furnitures[_furnitures.Count - 1].gameObject.transform.SetParent(_stackFurniture.transform);
 
         _stackFurniture.AddFurnitur(_furnitures[_furnitures.Count - 1]);
 

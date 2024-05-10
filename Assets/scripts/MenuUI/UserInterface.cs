@@ -36,4 +36,9 @@ public class UserInterface : MonoBehaviour
     {
         Time.timeScale = 1;
     }
+
+    public void ClearSave()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

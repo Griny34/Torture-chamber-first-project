@@ -19,12 +19,14 @@ public class MatchModel : MonoBehaviour
 
     [Header("Improvement")]
     [SerializeField] private ImprovmentSpawner _improvmentSpawnerChair;
-    [SerializeField] private ImprovmentSpawner _improvmentSpawnerArmChair;
-    [SerializeField] private ImprovmentSpawner _improvmentSpawnerOnWheel;
+    [SerializeField] private ImprovmentArmchair _improvmentSpawnerArmChair;
+    [SerializeField] private ImprovmentChairOnWheel _improvmentSpawnerOnWheel;
     [SerializeField] private ImprovmentSpawner _improvmentSpawnerDouble;
     [SerializeField] private ImprovmentSpawner _improvmentSpawnerTable;
     [SerializeField] private ImprovmentMateriale _improvmentMaterialeLeather;
     [SerializeField] private ImprovmentMateriale _improvmentMaterialeWheel;
+    [SerializeField] private ImprovmentWareHouse _improvmentWareHouse;
+    [SerializeField] private ImprovmentWareHouse _improvmentWareHouse2;
 
     [Header("Events")]
     [SerializeField] private UnityEvent onFinishing;
@@ -102,6 +104,15 @@ public class MatchModel : MonoBehaviour
         onMatchChanged?.Invoke();
     }
 
+    public void ExitMenu()
+    {
+        SaveGame();
+        _mini.SetPlayerScor(CounterMoneyOnScene.Instance.GetVolue());
+        Wallet.Instance.GiveMoney(CounterMoneyOnScene.Instance.GetVolue());
+        CounterMoneyOnScene.Instance.RestartVolue();
+        SceneManager.LoadScene(1);
+    }
+
     private void FinishMatch()
     {
         Time.timeScale = 0;
@@ -125,5 +136,7 @@ public class MatchModel : MonoBehaviour
         _improvmentSpawnerTable.SaveValueCounter();
         _improvmentMaterialeLeather.SaveValueCounter();
         _improvmentMaterialeWheel.SaveValueCounter();
+        _improvmentWareHouse.SaveValueCounter();
+        _improvmentWareHouse2.SaveValueCounter();
     }
 }

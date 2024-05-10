@@ -14,7 +14,19 @@ public class YandexLeaderboard : MonoBehaviour
 
     public void SetPlayerScor(int scor)
     {
-        if(PlayerAccount.IsAuthorized == false)
+        if (Agava.WebUtility.WebApplication.IsRunningOnWebGL == false)
+        {
+            return;
+        }
+
+
+        if (Agava.WebUtility.AdBlock.Enabled == true)
+        {
+            return;
+        }
+
+
+        if (PlayerAccount.IsAuthorized == false)
         {
             return;
         }

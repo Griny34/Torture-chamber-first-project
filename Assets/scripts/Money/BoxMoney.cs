@@ -15,6 +15,8 @@ public class BoxMoney : MonoBehaviour
 
             Wallet.Instance.TakeSalary(Money.Instance.GetMoneyValue());
 
+            CounterMoneyOnScene.Instance.SubtractVolue(); 
+
             _particleSystem.Play();
 
             Destroy(gameObject, 0.5f);

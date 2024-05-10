@@ -10,12 +10,11 @@ public class RealizationReward : MonoBehaviour
     [SerializeField] private SpawnerMoney _spawnerMoney;
     [SerializeField] private float _delay;
     [SerializeField] private float _delaySpawn;
+    [SerializeField] private int _priceViewing;
 
-    private List<int> _numberMoney = new List<int> { 1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,4,4,4,10};
     private Coroutine _coroutine;
-    private Coroutine _coroutineSpawn;
-    private int repetitions;
     private bool _isOpenReward = true;
+    private bool _isWorkCoroutine = true;
 
     private void Start()
     {       
@@ -33,63 +32,37 @@ public class RealizationReward : MonoBehaviour
                 _coroutine = StartCoroutine(TakeRewardAds());
             }
         };
-
-        _triggerHandler.OnExit += col => 
-        { 
-            if(_coroutine != null)
-            {
-                StopCoroutine(_coroutine); 
-            }
-        };
     }
 
     public void OpenSpawner()
     {
+        _isWorkCoroutine = true;
         _isOpenReward = true;
-    }
-    
-    private void StartCorutineAds()
-    {
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-        }
-
-        _coroutine = StartCoroutine(TakeRewardAds());
-    }
+        _triggerHandler.gameObject.SetActive(true);
+    }   
 
     private IEnumerator TakeRewardAds()
     {
-        int number = Random.RandomRange(0, _numberMoney.Count);
+        yield return new WaitForSeconds(_delay);
 
-        repetitions = _numberMoney[number];
+        _rewardService.ShowRewardAds();
 
-        while (_isOpenReward != false)
+        _triggerHandler.gameObject.SetActive(false);
+
+        _isOpenReward = false;
+
+        while (_isWorkCoroutine != false)
         {
-            yield return new WaitForSeconds(_delay);
-
-            _rewardService.ShowRewardAds();
-
-            if(_coroutineSpawn != null)
+            for (int i = 0; i < _priceViewing; i++)
             {
-                StopCoroutine(_coroutineSpawn);
+                _spawnerMoney.CreateMoney();
+
+                yield return new WaitForSeconds(_delaySpawn);
             }
 
-            _coroutineSpawn = StartCoroutine(SpawnMoney());
-
-            _isOpenReward = false;
+            _isWorkCoroutine = false;
 
             yield return null;
-        }
-    }
-
-    private IEnumerator SpawnMoney()
-    {
-        for (int i = 0; i < repetitions; i++)
-        {
-            _spawnerMoney.CreateMoney();
-
-            yield return new WaitForSeconds(_delaySpawn);
         }
     }
 }

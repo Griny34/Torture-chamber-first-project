@@ -1,16 +1,12 @@
-using Gameplay.Common;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ImprovmentMateriale : Improvement
+public class ImprovmentChairOnWheel : Improvement
 {
-    [SerializeField] private Image _image;
     [SerializeField] private Order _order;
-    [SerializeField] private Improvement _improvement;
-    [SerializeField] private string _keyPrefs;
+    [SerializeField] private ImprovmentMateriale _improvement;
+    [SerializeField] private string _keyPrefsCount;
     [SerializeField] private string _keyPrefsBool;
 
     private bool _isOpen => PlayerPrefs.GetInt(_keyPrefsBool) != 0;
@@ -28,7 +24,7 @@ public class ImprovmentMateriale : Improvement
 
     public void SaveValueCounter()
     {
-        PlayerPrefs.SetInt(_keyPrefs, GetValueCounter());
+        PlayerPrefs.SetInt(_keyPrefsCount, GetValueCounter());
 
         if (GetBoolIsOpen() == false)
         {
@@ -38,8 +34,6 @@ public class ImprovmentMateriale : Improvement
 
     protected override void Change()
     {
-        _image.gameObject.SetActive(true);
-
         if (_improvement.GetBoolIsOpen() == false)
         {
             _order.OpenAccess();
@@ -48,6 +42,6 @@ public class ImprovmentMateriale : Improvement
 
     private void LoadValueCounter()
     {
-        ChangeValueCounter(PlayerPrefs.GetInt(_keyPrefs));
+        ChangeValueCounter(PlayerPrefs.GetInt(_keyPrefsCount));
     }
 }

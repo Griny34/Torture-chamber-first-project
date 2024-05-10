@@ -58,9 +58,9 @@ public abstract class Improvement : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 _text.gameObject.SetActive(false);
+                ChangeBoolIsOpen();
                 Change();
                 _triggerHandler.gameObject.SetActive(true);
-                ChangeBoolIsOpen();
             }
 
             yield return new WaitForSeconds(_speedBay);
@@ -87,7 +87,7 @@ public abstract class Improvement : MonoBehaviour
         _valueOnText.text = _valueCounter.ToString();
     }
 
-    protected bool GetBoolIsOpen()
+    public bool GetBoolIsOpen()
     {
         return _isOpen;
     }

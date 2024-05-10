@@ -15,6 +15,7 @@ public class JoystickPlayer : MonoBehaviour
 
     [SerializeField] private float _speed;
     [SerializeField] private float _upgradeSpeed;
+    [SerializeField] private float _speedRotation;
 
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
@@ -79,7 +80,24 @@ public class JoystickPlayer : MonoBehaviour
         //else
         //{
             MovePlayer(_joystickLandscape);
+            //MovePlayer();
         //}
+    }
+
+    private void MovePlayer()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        Vector3 direction = new Vector3(horizontal, 0, vertical);
+
+        if(direction.magnitude > Mathf.Abs(0.01f))
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction),Time.deltaTime * _speedRotation);
+        }
+
+        _animator.SetFloat(_velocityHash, Vector3.ClampMagnitude(direction, 1).magnitude);
+        _rigidbody.velocity = Vector3.ClampMagnitude(direction, 1) * _speed;
     }
 
     private void MovePlayer(DynamicJoystick joystick)

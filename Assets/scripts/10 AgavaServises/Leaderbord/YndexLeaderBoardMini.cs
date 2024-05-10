@@ -9,6 +9,17 @@ public class YndexLeaderBoardMini : MonoBehaviour
 
     public void SetPlayerScor(int scor)
     {
+        if (Agava.WebUtility.WebApplication.IsRunningOnWebGL == false)
+        {
+            return;
+        }
+
+
+        if (Agava.WebUtility.AdBlock.Enabled == true)
+        {
+            return;
+        }
+
         if (PlayerAccount.IsAuthorized == false)
         {
             return;
