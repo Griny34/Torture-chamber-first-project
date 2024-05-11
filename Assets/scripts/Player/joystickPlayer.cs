@@ -8,6 +8,7 @@ public class JoystickPlayer : MonoBehaviour
 {
     //private const string _isRun = "IsRun";
 
+    [SerializeField] private bool _isMobile;
     [SerializeField] private Rigidbody _rigidbody;
     //[SerializeField] private FixedJoystick _joystickPortrait;
     [SerializeField] private DynamicJoystick _joystickLandscape;
@@ -19,8 +20,6 @@ public class JoystickPlayer : MonoBehaviour
 
     [SerializeField] private float _acceleration;
     [SerializeField] private float _deceleration;
-
-
 
     private float _velocity = 0;
     private int _velocityHash = 0;
@@ -79,7 +78,18 @@ public class JoystickPlayer : MonoBehaviour
         //}
         //else
         //{
+#if !UNITY_EDITOR && UNITY_WEBGL
+        _isMobile = Device.IsMobile;
+#endif
+
+        if (_isMobile)
+        {
             MovePlayer(_joystickLandscape);
+        }
+        else
+        {
+            MovePlayer();
+        }
             //MovePlayer();
         //}
     }
@@ -96,7 +106,7 @@ public class JoystickPlayer : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction),Time.deltaTime * _speedRotation);
         }
 
-        _animator.SetFloat(_velocityHash, Vector3.ClampMagnitude(direction, 1).magnitude);
+        _animator.SetFloat(_velocityHash, _rigidbody.velocity.magnitude /*Vector3.ClampMagnitude(direction, 1).magnitude*/);
         _rigidbody.velocity = Vector3.ClampMagnitude(direction, 1) * _speed;
     }
 

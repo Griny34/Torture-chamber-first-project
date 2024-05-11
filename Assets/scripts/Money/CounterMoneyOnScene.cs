@@ -11,6 +11,17 @@ public class CounterMoneyOnScene : MonoBehaviour
 
     public event Action OnChangeVolue;
 
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     public void AddVolue()
     {
         _volue++;

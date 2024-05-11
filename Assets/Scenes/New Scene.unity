@@ -2118,6 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d8c01bbebb635c46aaf9ecba9156873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isMobile: 0
   _rigidbody: {fileID: 145607018}
   _joystickLandscape: {fileID: 1360234032}
   _animator: {fileID: 145607014}
@@ -19152,10 +19153,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1247893663}
-  - component: {fileID: 1247893662}
   - component: {fileID: 1247893661}
   - component: {fileID: 1247893660}
   - component: {fileID: 1247893664}
+  - component: {fileID: 1247893665}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -19275,25 +19276,6 @@ MonoBehaviour:
   SoundButtonPlay: {fileID: 8300000, guid: d026266d3a469774bb3f3a48fb3a80af, type: 3}
   AudioSourceOther: {fileID: 1247893660}
   SoundButtonOther: {fileID: 8300000, guid: 0fbd6344a13961148afaa62447f1e591, type: 3}
---- !u!114 &1247893662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247893659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b7dbcb4335e224429cd04536594ca4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sounds:
-  - Name: Menu
-    Clip: {fileID: 8300000, guid: f26e7c9a7aa2c4641a630372afdaf697, type: 3}
-    Volume: 0.1
-    Pitch: 1
-    Loop: 1
-    Source: {fileID: 0}
 --- !u!4 &1247893663
 Transform:
   m_ObjectHideFlags: 0
@@ -19321,8 +19303,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42318fa265a0d2c41ae7b69cbbb4a217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 1247893660}
   _slider: {fileID: 232239753}
+  _keyVolume: Volume
+  _musicPlayer: {fileID: 1247893665}
+--- !u!114 &1247893665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1247893659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880619b792b2aad4393425977b121d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sounds:
+  - Name: Game
+    Clip: {fileID: 8300000, guid: a5aa15d557e87cc409008e7f3009e328, type: 3}
+    Volume: 1
+    Pitch: 0
+    Loop: 1
+    Source: {fileID: 0}
+  _audioSource: {fileID: 1247893660}
+  _keyVolume: Volume
 --- !u!1 &1272308203
 GameObject:
   m_ObjectHideFlags: 0
