@@ -10,6 +10,8 @@ public class Money : MonoBehaviour
     [SerializeField] private int _value;
     [SerializeField] private int _upgradeMoney;
 
+    private int _startMoney = 10;
+
     private void Awake()
     {
         if(Instance != null)
@@ -26,6 +28,10 @@ public class Money : MonoBehaviour
         if (PlayerPrefs.HasKey("Money"))
         {
             _value = PlayerPrefs.GetInt("Money");
+        }
+        else
+        {
+            _value = _startMoney;
         }
 
         Upgrade.Instace.OnBuyMoney += () =>

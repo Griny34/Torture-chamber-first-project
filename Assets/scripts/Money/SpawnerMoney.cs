@@ -15,7 +15,5 @@ public class SpawnerMoney : MonoBehaviour
         Vector3 randomPosition = _positionSpawner.position + new Vector3(randomX, _positionSpawner.position.y ,randomZ);
 
         Instantiate(_prefabMoney, randomPosition, Quaternion.identity);
-
-        CounterMoneyOnScene.Instance.AddVolue();
     }
 }

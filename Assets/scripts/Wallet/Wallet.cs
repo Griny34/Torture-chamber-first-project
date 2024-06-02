@@ -10,6 +10,7 @@ public class Wallet : MonoBehaviour
     [SerializeField] private int _money;
 
     private int _salary = 0;
+    private int _counter = 0;
 
     public event Action<int> OnMoneyChanged;
     public event Action<int> OnSalaryChanged;
@@ -51,6 +52,7 @@ public class Wallet : MonoBehaviour
 
     public int GetMoney()
     {
+        OnSalaryChanged?.Invoke(_counter);
         return _money;
     }
 
@@ -83,10 +85,5 @@ public class Wallet : MonoBehaviour
         _money = money;
 
         OnMoneyChanged?.Invoke(money);
-    }
-
-    private void UpdateMoney()
-    {
-        
     }
 }

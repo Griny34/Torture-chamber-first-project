@@ -48,6 +48,14 @@ public class ChairSpawner : SpawnerFurniture
             }
         };
 
+        _triggerHandler.OnExit += col =>
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }
+        };
+
         _ariaSpawner.OnEnter += col =>
         {
             if (_stackFurniture.IsFull == true) return;
@@ -101,7 +109,7 @@ public class ChairSpawner : SpawnerFurniture
 
             _stackMaterial.RemoveDesk(_boardRelevant, gameObject.transform);
 
-            yield return new WaitForSeconds(0.5f);
+            
 
             _countBoard++;
 
@@ -128,6 +136,7 @@ public class ChairSpawner : SpawnerFurniture
 
                 _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

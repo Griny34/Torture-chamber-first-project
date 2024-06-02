@@ -7,9 +7,14 @@ public class UserInterface : MonoBehaviour
 {
     public void PlayGame()
     {
-        int currentIndexScen = SceneManager.GetActiveScene().buildIndex;
-
-        SceneManager.LoadScene(currentIndexScen + 1);
+        if (Tutorial.IsTiger)
+        {
+            SceneManager.LoadScene("PlayScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("TutorialScene");
+        }
     }
 
     public void LoadStartMenu()

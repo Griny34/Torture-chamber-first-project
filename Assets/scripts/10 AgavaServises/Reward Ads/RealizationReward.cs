@@ -22,8 +22,6 @@ public class RealizationReward : MonoBehaviour
         {
             if (_isOpenReward == true)
             {
-                _rewardService.ShowRewardAds();
-
                 if (_coroutine != null)
                 {
                     StopCoroutine(_coroutine);
@@ -43,26 +41,12 @@ public class RealizationReward : MonoBehaviour
 
     private IEnumerator TakeRewardAds()
     {
-        yield return new WaitForSeconds(_delay);
-
-        _rewardService.ShowRewardAds();
-
-        _triggerHandler.gameObject.SetActive(false);
+        yield return new WaitForSeconds(_delay);      
 
         _isOpenReward = false;
 
-        while (_isWorkCoroutine != false)
-        {
-            for (int i = 0; i < _priceViewing; i++)
-            {
-                _spawnerMoney.CreateMoney();
+        _rewardService.ShowRewardAds();
 
-                yield return new WaitForSeconds(_delaySpawn);
-            }
-
-            _isWorkCoroutine = false;
-
-            yield return null;
-        }
+        _isWorkCoroutine = false;
     }
 }

@@ -11,6 +11,7 @@ public class YandexLeaderboard : MonoBehaviour
     private readonly List<LeaderboardPlayer> _leaderboardPlayers = new ();
 
     [SerializeField] private LeaderboardView _leaderboardView;
+    [SerializeField] private LeaderboardView _leaderboardView2;
 
     public void SetPlayerScor(int scor)
     {
@@ -60,6 +61,7 @@ public class YandexLeaderboard : MonoBehaviour
             }
 
             _leaderboardView.ConstructLeaderboard(_leaderboardPlayers);
+            _leaderboardView2.ConstructLeaderboard(_leaderboardPlayers);
         });
     }
 }

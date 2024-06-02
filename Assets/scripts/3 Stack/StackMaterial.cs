@@ -6,25 +6,30 @@ using UnityEngine;
 public class StackMaterial : MonoBehaviour
 {
     [SerializeField] private Transform _pointStartStack;
-    [SerializeField] private int _maxCountdesk;
+    [SerializeField] private int _maxCountDesk;
     [SerializeField] private int _countDeskForCreatChair;
 
     private List<Material> _inventoryMateriale = new List<Material>();
     private float _number = 0;
+    private int _startCountDesk = 3;
 
-    public bool IsFull => _inventoryMateriale.Count >= _maxCountdesk;
+    public bool IsFull => _inventoryMateriale.Count >= _maxCountDesk;
 
     private void Start()
     {
         if (PlayerPrefs.HasKey("MaxCountDesk"))
         {
-            _maxCountdesk = PlayerPrefs.GetInt("MaxCountDesk");
+            _maxCountDesk = PlayerPrefs.GetInt("MaxCountDesk");
+        }
+        else
+        {
+            _maxCountDesk = _startCountDesk;
         }
 
         Upgrade.Instace.OnBuyDeskInventory += () =>
         {
-            _maxCountdesk++;
-            PlayerPrefs.SetInt("MaxCountDesk", _maxCountdesk);
+            _maxCountDesk++;
+            PlayerPrefs.SetInt("MaxCountDesk", _maxCountDesk);
         };
     }
 

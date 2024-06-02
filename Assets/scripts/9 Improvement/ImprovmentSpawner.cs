@@ -1,7 +1,4 @@
-using Gameplay.Common;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class ImprovmentSpawner : Improvement
@@ -10,6 +7,9 @@ public class ImprovmentSpawner : Improvement
     [SerializeField] private string _keyPrefsCount;
     [SerializeField] private string _keyPrefsBool;
 
+    [SerializeField] private Image _imageSpawnFurnitur;
+    [SerializeField] private GameObject _tarif;
+
     private bool _isOpen => PlayerPrefs.GetInt(_keyPrefsBool) != 0;
 
     private void Start()
@@ -17,6 +17,9 @@ public class ImprovmentSpawner : Improvement
         if (_isOpen)
         {
             OpenSpawner();
+
+            _imageSpawnFurnitur.gameObject.SetActive(false);
+            _tarif.gameObject.SetActive(true);
             return;
         }
 
@@ -36,6 +39,9 @@ public class ImprovmentSpawner : Improvement
     protected override void Change()
     {
         _order.OpenAccess();
+
+        _imageSpawnFurnitur.gameObject.SetActive(false);
+        _tarif.gameObject.SetActive(true);
     }
 
     private void LoadValueCounter()

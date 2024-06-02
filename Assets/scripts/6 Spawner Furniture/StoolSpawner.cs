@@ -38,6 +38,14 @@ public class StoolSpawner : SpawnerFurniture
             }         
         };
 
+        _triggerHandler.OnExit += col =>
+        {
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }          
+        };
+
 
         _ariaSpawner.OnEnter += col =>
         {
@@ -64,13 +72,11 @@ public class StoolSpawner : SpawnerFurniture
 
             _stackMaterial.RemoveDesk(_boardRelevant, gameObject.transform);
 
-            yield return new WaitForSeconds(0.5f);
-
             _countBoard++;
 
             OnChangeCount?.Invoke();
 
-            if(_countBoardsForCreate == _countBoard)
+            if (_countBoardsForCreate == _countBoard)
             {
                 IsOpen = false;
 
@@ -81,6 +87,8 @@ public class StoolSpawner : SpawnerFurniture
 
                 _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
+
+            yield return new WaitForSeconds(0.5f);
         }       
     }
 

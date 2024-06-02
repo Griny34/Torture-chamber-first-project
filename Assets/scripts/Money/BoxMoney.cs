@@ -9,13 +9,11 @@ public class BoxMoney : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.transform.TryGetComponent<JoystickPlayer>(out var player) == true)
+        if (collider.transform.TryGetComponent<StackMaterial>(out var player) == true)
         {
             Wallet.Instance.TakeMoney(Money.Instance.GetMoneyValue());
 
-            Wallet.Instance.TakeSalary(Money.Instance.GetMoneyValue());
-
-            CounterMoneyOnScene.Instance.SubtractVolue(); 
+            Wallet.Instance.TakeSalary(Money.Instance.GetMoneyValue());         
 
             _particleSystem.Play();
 

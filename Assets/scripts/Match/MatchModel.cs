@@ -72,10 +72,7 @@ public class MatchModel : MonoBehaviour
 
     public void Initialize()
     {
-        _gameTimer.StartTimer(CurrentMatch.Time);
-
-        Wallet.Instance.RestartSalary();
-        
+        _gameTimer.StartTimer(CurrentMatch.Time);       
     }
 
     public void StartNextMatch()
@@ -85,9 +82,11 @@ public class MatchModel : MonoBehaviour
 
     private void StartNestLevel()
     {
-        SaveGame();
+        Wallet.Instance.RestartSalary();
+        
+        _mini.SetPlayerScor(Wallet.Instance.GetMoney());
 
-        _mini.SetPlayerScor(Wallet.Instance.GetSalary());
+        SaveGame();
 
         if (_currentMatchIndex >= _allMatch.Length)
         {
@@ -106,10 +105,9 @@ public class MatchModel : MonoBehaviour
 
     public void ExitMenu()
     {
+        Wallet.Instance.RestartSalary();
+        _mini.SetPlayerScor(Wallet.Instance.GetMoney());
         SaveGame();
-        _mini.SetPlayerScor(CounterMoneyOnScene.Instance.GetVolue());
-        Wallet.Instance.GiveMoney(CounterMoneyOnScene.Instance.GetVolue());
-        CounterMoneyOnScene.Instance.RestartVolue();
         SceneManager.LoadScene(1);
     }
 

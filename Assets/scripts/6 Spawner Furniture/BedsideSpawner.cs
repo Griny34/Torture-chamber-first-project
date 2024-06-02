@@ -38,6 +38,14 @@ public class BedsideSpawner : SpawnerFurniture
             }
         };
 
+        _triggerHandler.OnExit += col =>
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }
+        };
+
         _ariaSpawner.OnEnter += col =>
         {
             if (_stackFurniture.IsFull == true) return;
@@ -63,7 +71,7 @@ public class BedsideSpawner : SpawnerFurniture
 
             _stackMaterial.RemoveDesk(_boardRelevant, gameObject.transform);
 
-            yield return new WaitForSeconds(0.5f);
+            
 
             _countBoard++;
 
@@ -80,6 +88,8 @@ public class BedsideSpawner : SpawnerFurniture
 
                 _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
+
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

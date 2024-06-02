@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class ImprovmentArmchair : Improvement
@@ -9,6 +8,9 @@ public class ImprovmentArmchair : Improvement
     [SerializeField] private string _keyPrefsCount;
     [SerializeField] private string _keyPrefsBool;
 
+    [SerializeField] private Image _imageSpawnFurnitur;
+    [SerializeField] private GameObject _tarif;
+
     private bool _isOpen => PlayerPrefs.GetInt(_keyPrefsBool) != 0;
 
     private void Start()
@@ -16,6 +18,8 @@ public class ImprovmentArmchair : Improvement
         if (_isOpen)
         {
             OpenSpawner();
+            _imageSpawnFurnitur.gameObject.SetActive(false);
+            _tarif.gameObject.SetActive(true);
             return;
         }
 
@@ -34,7 +38,10 @@ public class ImprovmentArmchair : Improvement
 
     protected override void Change()
     {
-        if(_improvement.GetBoolIsOpen() == false)
+        _imageSpawnFurnitur.gameObject.SetActive(false);
+        _tarif.gameObject.SetActive(true);
+
+        if (_improvement.GetBoolIsOpen() == false)
         {
             _order.OpenAccess();
         }

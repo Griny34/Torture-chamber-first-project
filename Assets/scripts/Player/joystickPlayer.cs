@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Agava.WebUtility;
-
+using UnityEngine.Animations;
 
 public class JoystickPlayer : MonoBehaviour
 {
@@ -86,10 +86,14 @@ public class JoystickPlayer : MonoBehaviour
 
         if (_isMobile)
         {
+            _joystickLandscape.gameObject.SetActive(true);
+
             MovePlayer(_joystickLandscape);
         }
         else
         {
+            _joystickLandscape.gameObject.SetActive(false);
+
             MovePlayer();
         }
             //MovePlayer();
@@ -110,6 +114,15 @@ public class JoystickPlayer : MonoBehaviour
 
         _animator.SetFloat(_velocityHash, _rigidbody.velocity.magnitude /*Vector3.ClampMagnitude(direction, 1).magnitude*/);
         _rigidbody.velocity = Vector3.ClampMagnitude(direction, 1) * _speed;
+
+        if (_rigidbody.velocity.magnitude <= 0.05f)
+        {
+            _rigidbody.angularVelocity = Vector3.zero;
+        }
+        else
+        {
+            transform.rotation = Quaternion.LookRotation(_rigidbody.velocity);
+        }
     }
 
     private void MovePlayer(DynamicJoystick joystick)

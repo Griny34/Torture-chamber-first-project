@@ -119,12 +119,8 @@ public class Upgrade : MonoBehaviour
     public void LoadTryes()
     {
         CountPaySpeed = PlayerPrefs.GetInt("CountPaySpeed");
-        OnBuySpeedPlayer?.Invoke();
         CountPayDesk = PlayerPrefs.GetInt("CountPayDesk");
-        OnBuyDeskInventory?.Invoke();
         CountPayChair = PlayerPrefs.GetInt("CountPayChair");
-        OnBuyChairInventory?.Invoke();
         CountPayMoney = PlayerPrefs.GetInt("CountPayMoney");
-        OnBuyMoney?.Invoke();
     }
 }

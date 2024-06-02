@@ -7,10 +7,9 @@ public class WalletView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _money;
     [SerializeField] private TextMeshProUGUI _money2;
-    [SerializeField] private TextMeshProUGUI _money5;
-    [SerializeField] private TextMeshProUGUI _money6;
     [SerializeField] private Wallet _wallet;
     [SerializeField] private TextMeshProUGUI _salary;
+    [SerializeField] private TextMeshProUGUI _salary2;
 
     private void Awake()
     {
@@ -23,9 +22,9 @@ public class WalletView : MonoBehaviour
         _wallet.OnSalaryChanged += value =>
         {
             _salary.text = _wallet.GetSalary().ToString();
+            _salary2.text = _wallet.GetSalary().ToString();
         };
 
-        _salary.text = _wallet.GetSalary().ToString();
         _money.text = _wallet.GetMoney().ToString();
         _money2.text = _wallet.GetMoney().ToString();
     }

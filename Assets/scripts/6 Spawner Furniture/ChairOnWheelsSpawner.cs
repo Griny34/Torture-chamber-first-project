@@ -48,6 +48,14 @@ public class ChairOnWheelsSpawner : SpawnerFurniture
             }
         };
 
+        _triggerHandler.OnExit += col =>
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }
+        };
+
         _ariaSpawner.OnEnter += col =>
         {
             if (_stackFurniture.IsFull == true) return;
@@ -71,9 +79,7 @@ public class ChairOnWheelsSpawner : SpawnerFurniture
         {
             _armchairRelevant = SearchArmChair();
 
-            _stackFurniture.RemoveFurniture(_armchairRelevant, gameObject.transform);
-
-            yield return new WaitForSeconds(0.5f);
+            _stackFurniture.RemoveFurniture(_armchairRelevant, gameObject.transform);          
 
             _countFurniture++;
 
@@ -90,6 +96,8 @@ public class ChairOnWheelsSpawner : SpawnerFurniture
 
                 _coroutineAnimation = StartCoroutine(PlayAnimation());
             }
+
+            yield return new WaitForSeconds(0.5f);
         }
     }
 

@@ -22,23 +22,30 @@ public class CounterMoneyOnScene : MonoBehaviour
         Instance = this;
     }
 
-    public void AddVolue()
+    public void AddVolue(int money)
     {
-        _volue++;
+        _volue += money;
 
         OnChangeVolue?.Invoke();
     }
 
-    public void SubtractVolue()
+    public void SubtractVolue(int money)
     {
-        _volue--;
+        _volue -= money;
 
         OnChangeVolue?.Invoke();
     }
 
     public int GetVolue()
     {
-        return _volue * Money.Instance.GetMoneyValue();
+        return _volue;
+    }
+
+    public int GetAllSalary()
+    {
+        int volue = _volue + Wallet.Instance.GetSalary();
+
+        return volue;
     }
 
     public void RestartVolue()

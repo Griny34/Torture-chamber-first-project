@@ -28,8 +28,6 @@ public class MusicPlayer : MonoBehaviour
             sound.Source.pitch = sound.Pitch;
             sound.Source.loop = sound.Loop;
         }
-
-
     }
 
     private void Start()
@@ -39,8 +37,13 @@ public class MusicPlayer : MonoBehaviour
             _audioSource.clip = _sounds[0].Clip;
 
             _audioSource.Play();
-        }
-        
+
+            //_sounds[0].Source.Play();
+
+            //Sound sound = _sounds[0];
+
+            //sound.Source.Play();
+        }        
     }
 
     public void ChangeVolume(float value)
